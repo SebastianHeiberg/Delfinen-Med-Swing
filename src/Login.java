@@ -1,20 +1,24 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.logging.FileHandler;
+import java.util.Arrays;
 
 import Login.LoginCheck;
+import com.sun.security.auth.module.JndiLoginModule;
 
 
 public class Login {
 
   public FileHandle fileHandle = new FileHandle();
   private LoginCheck logins = new LoginCheck();
+  JPasswordField jPasswordField;
   JFrame frameMain;
   JLabel jLabelFunktion;
   JLabel jLabelPassword;
-  JLabel username;
-  JTextField jTextFieldPassword;
+  JLabel jlabelUsername;
   JTextField jTextFieldUsername;
   JComboBox jComboBoxOptions;
   String[] muligheder = {"Formand", "Kasserer", "Træner"};
@@ -29,30 +33,54 @@ public class Login {
     jLabelFunktion = new JLabel("Funktion i klubben ");
     jComboBoxOptions = new JComboBox(muligheder);
     jTextFieldUsername = new JTextField("", 15);
-    jTextFieldPassword = new JTextField("", 15);
     jLabelPassword = new JLabel("Kodeord ");
-    username = new JLabel("Brugernavn ");
+    jlabelUsername = new JLabel("Brugernavn ");
+    jPasswordField = new JPasswordField("",15);
     login = new JButton("Login");
     exit = new JButton("Exit");
 
+    exit.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        frameMain.dispose();
+      }
+    });
+    //alle knapperne
     frameMain.add(jLabelFunktion);
     jLabelFunktion.setHorizontalAlignment(JLabel.CENTER);
     frameMain.add(jComboBoxOptions);
-    frameMain.add(username);
-    username.setHorizontalAlignment(JLabel.CENTER);
+    frameMain.add(jlabelUsername);
+    jlabelUsername.setHorizontalAlignment(JLabel.CENTER);
     frameMain.add(jTextFieldUsername);
     frameMain.add(jLabelPassword);
     jLabelPassword.setHorizontalAlignment(JLabel.CENTER);
-    frameMain.add(jTextFieldPassword);
+    frameMain.add(jPasswordField);
     frameMain.add(exit);
     frameMain.add(login);
+
+    //laveBorder til alle felterne
+    Border blackline = BorderFactory.createLineBorder(Color.black);
+    jLabelFunktion.setBorder(blackline);
+    jLabelPassword.setBorder(blackline);
+    jlabelUsername.setBorder(blackline);
+    jComboBoxOptions.setBorder(blackline);
+    jTextFieldUsername.setBorder(blackline);
+    jPasswordField.setBorder(blackline);
+
+
 
     frameMain.setSize(400, 200);
     frameMain.setLocationRelativeTo(null);
   }
 
   private void attemptLoginuser(java.awt.event.ActionEvent evt) {
-    if (jComboBoxOptions.getItemAt(jComboBoxOptions.getSelectedIndex()).toString().equalsIgnoreCase("Formand") && logins.checkAccesChairman(jTextFieldUsername.getText(), jTextFieldPassword.getText())) {
+    if (jComboBoxOptions.getItemAt(jComboBoxOptions.getSelectedIndex()).toString().equalsIgnoreCase("Formand") && logins.checkAccesChairman(jTextFieldUsername.getText(), String.valueOf(jPasswordField.getPassword()))) {
+      frameMain.dispose();
+      Formand formand = new Formand();
+    }else if (jComboBoxOptions.getItemAt(jComboBoxOptions.getSelectedIndex()).toString().equalsIgnoreCase("Kasserer") && logins.checkAccesTreasurer(jTextFieldUsername.getText(), String.valueOf(jPasswordField.getPassword()))) {
+      frameMain.dispose();
+      Formand formand = new Formand();
+    } else if (jComboBoxOptions.getItemAt(jComboBoxOptions.getSelectedIndex()).toString().equalsIgnoreCase("Træner") && logins.checkAccesCoach(jTextFieldUsername.getText(), String.valueOf(jPasswordField.getPassword()))) {
       frameMain.dispose();
       Formand formand = new Formand();
     }
