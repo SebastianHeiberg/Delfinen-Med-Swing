@@ -69,6 +69,10 @@ public class Login {
     jTextFieldUsername.setBorder(blackline);
     jPasswordField.setBorder(blackline);
 
+    //centrer svar
+    jTextFieldUsername.setHorizontalAlignment(JTextField.CENTER);
+    jPasswordField.setHorizontalAlignment(JPasswordField.CENTER);
+
 
     frameMain.setSize(400, 200);
     frameMain.setLocationRelativeTo(null);
