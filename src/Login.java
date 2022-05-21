@@ -22,12 +22,14 @@ public class Login {
   String[] muligheder = {"Formand", "Kasserer", "Træner"};
   JButton exit;
   JButton login;
+  JLabel jLabelDelfinen;
 
   public Login() {
     frameMain = new JFrame("Login");
     frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frameMain.setVisible(true);
-    frameMain.setLayout(new GridLayout(4, 2));
+    frameMain.setLayout(null);
+
     jLabelFunktion = new JLabel("Funktion i klubben ");
     jComboBoxOptions = new JComboBox(muligheder);
     jTextFieldUsername = new JTextField("", 15);
@@ -60,6 +62,28 @@ public class Login {
     frameMain.add(exit);
     frameMain.add(login);
 
+    //billede og overskrift
+    ImageIcon icon = new ImageIcon("delfin.png");
+    JLabel contentPane = new JLabel();
+    contentPane.setIcon( icon );
+    contentPane.setLayout( new BorderLayout() );
+    frameMain.add(contentPane);
+    contentPane.setBounds(30,50,300,300);
+    jLabelDelfinen = new JLabel("Svømmeklubben Delfinen");
+    frameMain.add(jLabelDelfinen);
+    jLabelDelfinen.setBounds(350,20,400,40);
+    jLabelDelfinen.setFont(new Font("Serif", Font.BOLD, 30));
+
+    //set bounds forsøg // hvor lang mod højre, hvor lavt
+    jLabelFunktion.setBounds(300,100,200,20);
+    jComboBoxOptions.setBounds(520,100,200,20);
+    jlabelUsername.setBounds(300,140,200,20);
+    jTextFieldUsername.setBounds(520,140,200,20);
+    jLabelPassword.setBounds(300, 180,200,20);
+    jPasswordField.setBounds(520,180,200,20);
+    login.setBounds(520,220,200,60);
+    exit.setBounds(300,220,200,60);
+
     //laveBorder til alle felterne
     Border blackline = BorderFactory.createLineBorder(Color.black);
     jLabelFunktion.setBorder(blackline);
@@ -74,7 +98,7 @@ public class Login {
     jPasswordField.setHorizontalAlignment(JPasswordField.CENTER);
 
 
-    frameMain.setSize(400, 200);
+    frameMain.setSize(800, 400);
     frameMain.setLocationRelativeTo(null);
   }
 
@@ -113,12 +137,12 @@ public class Login {
   }
 
   public void run() {
-
     logins.setAllUsers(fileHandle.loadLogins());
   }
 
   public static void main(String[] args) throws IOException {
-    new Login().run();
+//    new Login().run();
+//    Kasserer kas = new Kasserer();
   }
 
 
