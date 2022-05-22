@@ -124,4 +124,8 @@ public class UI {
       }
     }
   }
+
+  public String printSlettet() {
+    return "Medlem Slettet";
+  }
 }

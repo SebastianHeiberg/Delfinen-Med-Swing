@@ -47,6 +47,7 @@ public class Formand {
   JTextField jTextFieldIndtastMedlemsnummer;
   JButton jButtonBekræftSletning;
   JButton jButtonVælgMedlem;
+  JLabel jLabelVismember;
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
@@ -141,7 +142,7 @@ public class Formand {
 
       jTextFieldIndtastMedlemsnummer = new JTextField();
       jButtonBekræftSletning = new JButton("Slet medlem");
-      JLabel jLabelVismember = new JLabel("");
+      jLabelVismember = new JLabel("");
       jButtonVælgMedlem = new JButton("Vælg");
       JLabel jLabelmembernumber = new JLabel("Indtast medlemsnummer",JLabel.CENTER);
 
@@ -163,6 +164,9 @@ public class Formand {
       jLabelVismember.setBounds(50, 200, 480, 30);
       jButtonVælgMedlem.setBounds(440, 150, 90, 30);
       jButtonBekræftSletning.setBounds(240, 250, 170, 30);
+
+      jButtonVælgMedlem.addActionListener(alConfirmMember);
+      jButtonBekræftSletning.addActionListener(alsletspecificMember);
 
     }
   };
@@ -426,6 +430,9 @@ public class Formand {
         try {
           NonCompetitor member = new NonCompetitor(navn, 0, alder, email, betalt, aktivPasiv);
           memberList.getAllNonCompetitors().add(member);
+          jTextFieldNavn.setText("");
+          jTextFieldEmail.setText("");
+          jTextFieldAlder.setText("");
         } catch (NullPointerException nullPointerException) {
           System.out.println("FEJL!");
         }
@@ -439,6 +446,9 @@ public class Formand {
         try {
           Competitor member = new Competitor(navn, 0, alder, email, betalt, selectedMK, swimmingDisciplins, bestResultTraining, bestResultCompetition);
           memberList.getAllCompetitors().add(member);
+          jTextFieldNavn.setText("");
+          jTextFieldEmail.setText("");
+          jTextFieldAlder.setText("");
         } catch (NullPointerException nullPointerException) {
           System.out.println("FEJL!");
         }
@@ -462,6 +472,46 @@ public class Formand {
 
     return null;
   }
+
+  ActionListener alConfirmMember = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      Member member; {
+      }
+      try {
+        member = memberList.findSpecifikMemberByMemberNumber(Integer.parseInt(jTextFieldIndtastMedlemsnummer.getText()));
+      } catch (NumberFormatException nfe){
+        member = null;
+        ui.showErrorfindMember(frameFormand);
+      }
+      if (member == null){
+        ui.showErrorMemberNull(frameFormand);
+      } else {
+        jLabelVismember.setText(ui.printMemberKassereÆndreRestance(member));
+      }
+    }
+  };
+
+  ActionListener alsletspecificMember = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      Member member; {
+      }
+      try {
+        member = memberList.findSpecifikMemberByMemberNumber(Integer.parseInt(jTextFieldIndtastMedlemsnummer.getText()));
+      } catch (NumberFormatException nfe){
+        member = null;
+        ui.showErrorfindMember(frameFormand);
+      }
+      if (member == null){
+        ui.showErrorMemberNull(frameFormand);
+      } else {
+        memberList.removeMember(member);
+        jLabelVismember.setText(ui.printSlettet());
+        jTextFieldIndtastMedlemsnummer.setText("");
+      }
+    }
+  };
 
   public void run() {
     memberList.setAllNonCompetitors(fileHandle.loadNonCompetitors());

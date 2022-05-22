@@ -87,5 +87,13 @@ public class MemberList {
   }
 
 
+  public void removeMember(Member member) {
 
+    if (member instanceof NonCompetitor ){
+      this.allNonCompetitors.remove(member);
+    }
+    if (member instanceof Competitor){
+      this.allCompetitors.remove(member);
+    }
+  }
 }
