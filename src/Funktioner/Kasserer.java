@@ -1,7 +1,10 @@
 package Funktioner;
 
+import Member.Member;
 import Member.MemberList;
 import Persistence.FileHandle;
+import Member.NonCompetitor;
+import UI.UI;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,6 +24,7 @@ public class Kasserer {
   JScrollPane jScrollPanevisMembers;
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
+  UI ui = new UI();
 
 
   public Kasserer() {
@@ -69,6 +73,11 @@ public class Kasserer {
 
   }
 
+  public void run() {
+    memberList.setAllNonCompetitors(fileHandle.loadNonCompetitors());
+    memberList.setAllCompetitors(fileHandle.loadCompetitors());
+  }
+
   ActionListener alShowMembers = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -83,8 +92,19 @@ public class Kasserer {
       jScrollPanevisMembers.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
       jScrollPanevisMembers.setEnabled(false);
 
+      textAreavisMedlemmerPanel.append(ui.printMembersInDebtHeader());
 
-      //TODO Nu mangler der kun nogle members!
+      for (Member member : memberList.getAllNonCompetitors()) {
+        if (!member.isMembershipPaid()) {
+          textAreavisMedlemmerPanel.append(ui.printMembersInDebt(member.getName(), calculateMembershipCost(member),member.getMemberNumber()));
+        }
+      }
+
+      for (Member member : memberList.getAllCompetitors()) {
+        if (!member.isMembershipPaid()) {
+          textAreavisMedlemmerPanel.append(ui.printMembersInDebt(member.getName(), calculateMembershipCost(member),member.getMemberNumber()));
+        }
+      }
     }
   };
 
@@ -93,8 +113,8 @@ public class Kasserer {
     public void actionPerformed(ActionEvent e) {
       //TODO noget med at gemme oplysningerne!
       frameKasserer.dispose();
-//      fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
-//      fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());
+      fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
+      fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());
       new Funktioner.Login().run();
     }
   };
@@ -164,23 +184,41 @@ public class Kasserer {
       jScrollPanevisMembers.setEnabled(false);
       jScrollPanevisMembers.setSize(575, 605);
 
-      //TODO indsætte budgettet
-      textAreavisBudget.append(String.format("""
-                    
-           Klubbens økonomi
-           Antal juniorer  : 30
-           Antal seniorer : 45
-           Antal passive  : 12
-           Antal medlemmer: 82
 
-           Samlet indtægt : 50000
-          """));
+      double expectedSum = 0;
+      int antalmembers = 0;
+      for (Member member : memberList.getAllNonCompetitors()) {
+        expectedSum += calculateMembershipCost(member);
+        antalmembers ++;
+      }
 
+      for (Member member : memberList.getAllCompetitors()) {
+        expectedSum += calculateMembershipCost(member);
+        antalmembers ++;
+      }
 
+      textAreavisBudget.append(String.format(ui.printExpectedAnnualSum(expectedSum, antalmembers)));
     }
   };
 
-  public MemberList getMemberList() {
-    return memberList;
+  protected double calculateMembershipCost(Member member) {
+    double adultMembershipCost = 1600;
+    double seniorDiscount = 0.75;
+    int age = member.getAge();
+
+    if (member instanceof NonCompetitor) {
+      if (!((NonCompetitor) member).isActive()) {
+        return 500;
+      }
+    }
+
+    if (age < 18) {
+      return 1000;
+    } else if (age < 65) {
+      return adultMembershipCost;
+    } else {
+      return adultMembershipCost * seniorDiscount;
+    }
   }
+
 }

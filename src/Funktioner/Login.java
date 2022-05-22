@@ -123,9 +123,7 @@ public class Login {
     if (funktion.equals("Kasserer")) {
       if (logins.checkAccesTreasurer(username, password)) {
         frameMain.dispose();
-        Kasserer kasserer = new Kasserer();
-        kasserer.getMemberList().setAllNonCompetitors(fileHandle.loadNonCompetitors());
-        kasserer.getMemberList().setAllCompetitors(fileHandle.loadCompetitors());
+        new Kasserer().run();
       } else {
         ui.showErrorLogin(frameMain);
       }
@@ -147,6 +145,6 @@ public class Login {
 
   public static void main(String[] args) throws IOException {
 //    new Funktioner.Login().run();
-    Kasserer kas = new Kasserer();
+    new Kasserer().run();
   }
 }
