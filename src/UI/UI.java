@@ -111,7 +111,7 @@ public class UI {
     if (member == null) {
       jTextArea.append("Intet medlemmer fundet ud fra søgekriteriet.\n");
     } else {
-      jTextArea.append("fundet medlem ud fra søgekriteriet:");
+      jTextArea.append("fundet medlem ud fra søgekriteriet:\n");
 
       if (member instanceof Competitor competitor) {
         jTextArea.append(String.format("""

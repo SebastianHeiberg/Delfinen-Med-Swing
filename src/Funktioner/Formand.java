@@ -42,8 +42,11 @@ public class Formand {
   JButton buttonNavn;
   JTextArea textAreaFremsøgteMembers;
   JComboBox jComboBoxsøgeKriterie;
-
-
+  JTextArea test;
+  JScrollPane jScrollPaneFound;
+  JTextField jTextFieldIndtastMedlemsnummer;
+  JButton jButtonBekræftSletning;
+  JButton jButtonVælgMedlem;
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
@@ -90,6 +93,7 @@ public class Formand {
     buttonVisMedlemmer.addActionListener(alShowAllMembers);
     buttonTilføjMedlem.addActionListener(alNytMedlem);
     buttonSøgEfterMedlem.addActionListener(alSøgMedlem);
+    buttonSletMedlem.addActionListener(alSletmember);
 
     //Det store område
     jPanelStoreOmråde = new JPanel(null);
@@ -124,6 +128,41 @@ public class Formand {
       jScrollPanevisMembers.setEnabled(false);
 
       ui.printAllMembers(memberList.getAllNonCompetitors(), memberList.getAllCompetitors(), textAreavisMedlemmerPanel);
+
+    }
+  };
+
+  ActionListener alSletmember = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelStoreOmråde.removeAll();
+      jPanelStoreOmråde.repaint();
+      jPanelStoreOmråde.setLayout(null);
+
+      jTextFieldIndtastMedlemsnummer = new JTextField();
+      jButtonBekræftSletning = new JButton("Slet medlem");
+      JLabel jLabelVismember = new JLabel("");
+      jButtonVælgMedlem = new JButton("Vælg");
+      JLabel jLabelmembernumber = new JLabel("Indtast medlemsnummer",JLabel.CENTER);
+
+      jPanelStoreOmråde.add(jTextFieldIndtastMedlemsnummer);
+      jPanelStoreOmråde.add(jButtonBekræftSletning);
+      jPanelStoreOmråde.add(jLabelVismember);
+      jPanelStoreOmråde.add(jButtonVælgMedlem);
+      jPanelStoreOmråde.add(jLabelmembernumber);
+
+      jLabelmembernumber.setOpaque(true);
+      jTextFieldIndtastMedlemsnummer.setOpaque(true);
+      jLabelVismember.setOpaque(true);
+      jLabelmembernumber.setBackground(Color.WHITE);
+      jTextFieldIndtastMedlemsnummer.setBackground(Color.WHITE);
+      jLabelVismember.setBackground(Color.WHITE);
+
+      jLabelmembernumber.setBounds(50, 150, 170, 30);
+      jTextFieldIndtastMedlemsnummer.setBounds(240, 150, 170, 30);
+      jLabelVismember.setBounds(50, 200, 480, 30);
+      jButtonVælgMedlem.setBounds(440, 150, 90, 30);
+      jButtonBekræftSletning.setBounds(240, 250, 170, 30);
 
     }
   };
@@ -265,11 +304,17 @@ public class Formand {
       jPanelStoreOmråde.repaint();
       jPanelStoreOmråde.setLayout(null);
 
+      textAreaFremsøgteMembers = new JTextArea();
+      jScrollPaneFound = new JScrollPane(textAreaFremsøgteMembers);
+      jPanelStoreOmråde.add(jScrollPaneFound);
+      jScrollPaneFound.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+      jScrollPaneFound.setEnabled(false);
+      jScrollPaneFound.setBounds(25, 250, 525, 340);
+
       textFieldSøgMedlemsnummer = new JTextField();
       JLabel jLabelInputText = new JLabel("Input søgningord", JLabel.CENTER);
       JLabel jLabelSøgGennem = new JLabel("Søg efter ", JLabel.CENTER);
       buttonNavn = new JButton("Søg");
-      textAreaFremsøgteMembers = new JTextArea();
       String[] muligheder = {"E-mail", "Navn", "Medlemsnummer"};
       jComboBoxsøgeKriterie = new JComboBox<>(muligheder);
       textFieldSøgUdFra = new JTextField();
@@ -278,16 +323,22 @@ public class Formand {
       jPanelStoreOmråde.add(jLabelInputText);
       jPanelStoreOmråde.add(jLabelSøgGennem);
       jPanelStoreOmråde.add(buttonNavn);
-      jPanelStoreOmråde.add(textAreaFremsøgteMembers);
       jPanelStoreOmråde.add(jComboBoxsøgeKriterie);
       jPanelStoreOmråde.add(textFieldSøgUdFra);
+
+      jLabelInputText.setOpaque(true);
+      jLabelSøgGennem.setOpaque(true);
+      jComboBoxsøgeKriterie.setOpaque(true);
+      jLabelInputText.setBackground(Color.WHITE);
+      jLabelSøgGennem.setBackground(Color.WHITE);
+      jComboBoxsøgeKriterie.setBackground(Color.WHITE);
+
 
       jLabelInputText.setBounds(100, 150, 170, 30);
       jLabelSøgGennem.setBounds(100, 100, 170, 30);
       jComboBoxsøgeKriterie.setBounds(300, 100, 170, 30);
       textFieldSøgUdFra.setBounds(300, 150, 170, 30);
       buttonNavn.setBounds(200, 200, 170, 30);
-      textAreaFremsøgteMembers.setBounds(25, 250, 525, 340);
 
       Border blackline = BorderFactory.createLineBorder(Color.black);
       jLabelInputText.setBorder(blackline);
@@ -300,7 +351,45 @@ public class Formand {
       listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
       jComboBoxsøgeKriterie.setRenderer(listRenderer);
 
+
+
       buttonNavn.addActionListener(alSøgMedlemFraKriterie);
+    }
+  };
+
+  ActionListener alSøgMedlemFraKriterie = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      String valgAfsøgning = jComboBoxsøgeKriterie.getItemAt(jComboBoxsøgeKriterie.getSelectedIndex()).toString();
+      String tekst = textFieldSøgUdFra.getText();
+      textAreaFremsøgteMembers.selectAll();
+      textAreaFremsøgteMembers.setText("");
+
+
+      if (!tekst.isEmpty()) {
+        if (valgAfsøgning.equals("E-mail")) {
+          ArrayList<Member> members = memberList.findSpecifikMembersByEmail(tekst);
+          ui.printFoundMembersBySearch(members, textAreaFremsøgteMembers);
+
+        } else if (valgAfsøgning.equals("Navn")) {
+          ArrayList<Member> members = memberList.findSpecifikMembersByName(tekst);
+          ui.printFoundMembersBySearch(members, textAreaFremsøgteMembers);
+
+        } else {
+          //medlemsnummer
+          int nummer = 0;
+          try {
+            nummer = Integer.parseInt(tekst);
+          } catch (NumberFormatException numberFormatException) {
+            ui.showErrorNumbersOnlyMember(frameFormand);
+          }
+          Member member = memberList.findSpecifikMemberByMemberNumber(nummer);
+          ui.printMemberFoundByMembernumber(member, textAreaFremsøgteMembers);
+        }
+
+      } else {
+        ui.showErrorSearchwordMissing(frameFormand);
+      }
     }
   };
 
@@ -359,44 +448,6 @@ public class Formand {
       }
 
 
-    }
-  };
-
-  ActionListener alSøgMedlemFraKriterie = new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      String valgAfsøgning = jComboBoxsøgeKriterie.getItemAt(jComboBoxsøgeKriterie.getSelectedIndex()).toString();
-      String tekst = textFieldSøgUdFra.getText();
-     textAreaFremsøgteMembers.selectAll();
-     textAreaFremsøgteMembers.setText("");
-//
-//      jPanelStoreOmråde.revalidate();
-//      jPanelStoreOmråde.repaint();
-
-      if (!tekst.isEmpty()) {
-        if (valgAfsøgning.equals("E-mail")) {
-          ArrayList<Member> members = memberList.findSpecifikMembersByEmail(tekst);
-          ui.printFoundMembersBySearch(members, textAreaFremsøgteMembers);
-
-        } else if (valgAfsøgning.equals("Navn")) {
-          ArrayList<Member> members = memberList.findSpecifikMembersByName(tekst);
-          ui.printFoundMembersBySearch(members, textAreaFremsøgteMembers);
-
-        } else {
-          //medlemsnummer
-          int nummer = 0;
-          try {
-            nummer = Integer.parseInt(tekst);
-          } catch (NumberFormatException numberFormatException) {
-            ui.showErrorNumbersOnlyMember(frameFormand);
-          }
-          Member member = memberList.findSpecifikMemberByMemberNumber(nummer);
-          ui.printMemberFoundByMembernumber(member, textAreaFremsøgteMembers);
-        }
-
-      } else {
-        ui.showErrorSearchwordMissing(frameFormand);
-      }
     }
   };
 
