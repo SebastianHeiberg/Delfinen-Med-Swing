@@ -28,8 +28,8 @@ public class Kasserer {
   JButton jButtonbekræftMedlem;
   JLabel jLabelVisMedlem;
   JLabel jLabelRestancetitel;
-  String[] muligheder = {"I Restance", "Ikke i Restance"};
-  JComboBox valg = new JComboBox(muligheder);
+  String[] comboBowValmuligheder = {"I Restance", "Ikke i Restance"};
+  JComboBox jComboBoxvalg = new JComboBox(comboBowValmuligheder);
   JButton jButtonVælgFinal;
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
@@ -141,7 +141,7 @@ public class Kasserer {
       jButtonbekræftMedlem = new JButton("2. Vælg");
       jLabelVisMedlem = new JLabel("");
       jLabelRestancetitel = new JLabel("3. Ændre restance til");
-      valg = new JComboBox(muligheder);
+      jComboBoxvalg = new JComboBox(comboBowValmuligheder);
       jButtonVælgFinal = new JButton("4. bekæft");
       jPanelÆndreRestance.setBackground(Color.WHITE);
 
@@ -152,7 +152,7 @@ public class Kasserer {
       jPanelÆndreRestance.add(jButtonbekræftMedlem);
       jPanelÆndreRestance.add(jLabelVisMedlem);
       jPanelÆndreRestance.add(jLabelRestancetitel);
-      jPanelÆndreRestance.add(valg);
+      jPanelÆndreRestance.add(jComboBoxvalg);
       jPanelÆndreRestance.add(jButtonVælgFinal);
 
       jLabelVælgMedlem.setBounds(50, 150, 170, 30);
@@ -160,7 +160,7 @@ public class Kasserer {
       jButtonbekræftMedlem.setBounds(430, 150, 100, 30);
       jLabelVisMedlem.setBounds(50, 200, 480, 30);
       jLabelRestancetitel.setBounds(50, 250, 170, 30);
-      valg.setBounds(240, 250, 170, 30);
+      jComboBoxvalg.setBounds(240, 250, 170, 30);
       jButtonVælgFinal.setBounds(430, 250, 100, 30);
 
 
@@ -175,6 +175,7 @@ public class Kasserer {
       jLabelRestancetitel.setHorizontalAlignment(JLabel.CENTER);
 
       jButtonbekræftMedlem.addActionListener(alVælgMember);
+      jButtonVælgFinal.addActionListener(alBekræftValg);
 
       jPanelÆndreRestance.repaint();
     }
@@ -230,10 +231,30 @@ public class Kasserer {
     }
   };
 
-  ActionListener albekræftValg = new ActionListener() {
+  ActionListener alBekræftValg = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
+      Member member;
 
+      try {
+        member = memberList.findSpecifikMemberByMemberNumber(Integer.parseInt(jTextFieldIndtastMedlemsnummer.getText()));
+
+        if (member == null){
+          ui.showErrorMemberNull(frameKasserer);
+        } else {
+
+          String nyStatus = jComboBoxvalg.getItemAt(jComboBoxvalg.getSelectedIndex()).toString();
+
+          if (nyStatus.equals("I Restance")) {
+            member.setMembershipPaid(true);
+          } else {
+            member.setMembershipPaid(false);
+          }
+          jLabelVisMedlem.setText(ui.printMemberKassereÆndreRestance(member));
+        }
+      } catch (NumberFormatException nfe){
+        ui.showErrorfindMember(frameKasserer);
+      }
     }
   };
 

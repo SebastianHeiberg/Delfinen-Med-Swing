@@ -19,6 +19,10 @@ public class UI {
     JOptionPane.showMessageDialog(frame, "Kan ikke finde medlem.");
   }
 
+  public void showErrorFindMemberFirst (JFrame frame) {
+    JOptionPane.showMessageDialog(frame, "Indtast medlemsnummer og vælg medlem først.");
+  }
+
   public String printMembersInDebt(String name, double debt, int membernumber) {
     return "\nMedlemsnummer: "+ membernumber + ", Navn: " + name + " , Restance: " + debt;
   }
