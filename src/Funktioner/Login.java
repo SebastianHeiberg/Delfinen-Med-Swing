@@ -160,7 +160,7 @@ public class Login {
 
   public static void main(String[] args) throws IOException {
 //    new Funktioner.Login().run();
-    new Kasserer().run();
-//    new Formand().run();
+//    new Kasserer().run();
+    new Formand().run();
   }
 }

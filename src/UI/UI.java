@@ -1,8 +1,8 @@
 package UI;
 
 import Member.Member;
-import Member.NonCompetitor;
 import Member.Competitor;
+import Member.NonCompetitor;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -28,8 +28,16 @@ public class UI {
     JOptionPane.showMessageDialog(frame, "Kan ikke finde medlem.");
   }
 
-  public void showErrorNumbersOnly(JFrame frame) {
+  public void showErrorNumbersOnlyAge(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Kun tal i aldersfeltet.");
+  }
+
+  public void showErrorNumbersOnlyMember(JFrame frame) {
+    JOptionPane.showMessageDialog(frame, "Kun tal til medlemsnummeret.");
+  }
+
+  public void showErrorSearchwordMissing(JFrame frame) {
+    JOptionPane.showMessageDialog(frame, "Der skal være noget i søgefeltet.");
   }
 
   public void showErrorFindMemberFirst(JFrame frame) {
@@ -74,6 +82,46 @@ public class UI {
       return String.format("""
           Medlemsnummer: %d  Navn: %s   Email: %s  Alder:  %d år  restance: %s
           """, member.getMemberNumber(), member.getName(), member.getEmail(), member.getAge(), member.isMembershipPaid());
+    }
+  }
+
+  public void printFoundMembersBySearch(ArrayList<Member> members, JTextArea jTextArea) {
+
+    if (members.isEmpty()) {
+      jTextArea.append("Ingen medlemmer fundet ud fra søgekriterier.");
+    } else {
+      jTextArea.append("Fundne medlemmer ud fra søgekriterier:\n");
+
+      for (Member member : members) {
+
+        if (member instanceof Competitor competitor) {
+          jTextArea.append(String.format("""
+              Navn: %s  Medlemsnummer: %d Køn: %s  Email: %s  Alder:  %d år  restance: %s
+              """, competitor.getName(), competitor.getMemberNumber(), competitor.getGender(), competitor.getEmail(), competitor.getAge(), competitor.isMembershipPaid()));
+        } else {
+          jTextArea.append(String.format("""
+              Navn: %s  Medlemsnummer: %d  Email: %s  Alder:  %d år  restance: %s
+              """, member.getName(), member.getMemberNumber(), member.getEmail(), member.getAge(), member.isMembershipPaid()));
+        }
+      }
+    }
+  }
+
+  public void printMemberFoundByMembernumber(Member member, JTextArea jTextArea) {
+    if (member == null) {
+      jTextArea.append("Intet medlemmer fundet ud fra søgekriteriet.\n");
+    } else {
+      jTextArea.append("fundet medlem ud fra søgekriteriet:");
+
+      if (member instanceof Competitor competitor) {
+        jTextArea.append(String.format("""
+            Navn: %s  Medlemsnummer: %d Køn: %s  Email: %s  Alder:  %d år  Restance: %s  Svømmedisciplin: %s 
+            """, competitor.getName(), competitor.getMemberNumber(), competitor.getGender(), competitor.getEmail(), competitor.getAge(), competitor.isMembershipPaid(), competitor.getSwimmingDisciplin()));
+      } else {
+        jTextArea.append(String.format("""
+            Navn: %s  Medlemsnummer: %d  Email: %s  Alder:  %d år  Restance: %s
+            """, member.getName(), member.getMemberNumber(), member.getEmail(), member.getAge(), member.isMembershipPaid()));
+      }
     }
   }
 }

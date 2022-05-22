@@ -11,6 +11,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class Kasserer {
@@ -97,9 +98,9 @@ public class Kasserer {
       JTextArea textAreavisMedlemmerPanel = new JTextArea();
       jScrollPanevisMembers = new JScrollPane(textAreavisMedlemmerPanel);
       jPanelStoreOmråde.add(jScrollPanevisMembers);
-      jScrollPanevisMembers.setSize(575, 605);
       jScrollPanevisMembers.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
       jScrollPanevisMembers.setEnabled(false);
+      jScrollPanevisMembers.setSize(575, 605);
 
       textAreavisMedlemmerPanel.append(ui.printMembersInDebtHeader());
 
@@ -266,6 +267,13 @@ public class Kasserer {
       } catch (NumberFormatException nfe){
         ui.showErrorfindMember(frameKasserer);
       }
+    }
+  };
+
+  ActionListener alSearch = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
   };
 

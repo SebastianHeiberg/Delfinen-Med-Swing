@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Locale;
 
@@ -36,6 +37,12 @@ public class Formand {
   JRadioButton jRadioButtonMand;
   JRadioButton jRadioButtonKvinde;
   JComboBox jComboBoxdisciplin;
+  JTextField textFieldSøgUdFra;
+  JTextField textFieldSøgMedlemsnummer;
+  JButton buttonNavn;
+  JTextArea textAreaFremsøgteMembers;
+  JComboBox jComboBoxsøgeKriterie;
+
 
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
@@ -82,6 +89,7 @@ public class Formand {
     buttonExit.addActionListener(alExitandSave);
     buttonVisMedlemmer.addActionListener(alShowAllMembers);
     buttonTilføjMedlem.addActionListener(alNytMedlem);
+    buttonSøgEfterMedlem.addActionListener(alSøgMedlem);
 
     //Det store område
     jPanelStoreOmråde = new JPanel(null);
@@ -239,13 +247,60 @@ public class Formand {
       jlabelAlderPåSvommer.setBackground(Color.WHITE);
       jLabelEmailPåSvommer.setBackground(Color.WHITE);
       jlabelKontigentBetalt.setBackground(Color.WHITE);
-      jLabelPassivSvømmer.setBackground(Color.WHITE);;
+      jLabelPassivSvømmer.setBackground(Color.WHITE);
+      ;
       jLabelKøn.setBackground(Color.WHITE);
       jLabelSvømmeDisciplin.setBackground(Color.WHITE);
       jComboBoxKontingent.setBackground(Color.WHITE);
       jComboBoxSvømmetype.setBackground(Color.WHITE);
       jComboBoxdisciplin.setBackground(Color.WHITE);
 
+    }
+  };
+
+  ActionListener alSøgMedlem = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelStoreOmråde.removeAll();
+      jPanelStoreOmråde.repaint();
+      jPanelStoreOmråde.setLayout(null);
+
+      textFieldSøgMedlemsnummer = new JTextField();
+      JLabel jLabelInputText = new JLabel("Input søgningord", JLabel.CENTER);
+      JLabel jLabelSøgGennem = new JLabel("Søg efter ", JLabel.CENTER);
+      buttonNavn = new JButton("Søg");
+      textAreaFremsøgteMembers = new JTextArea();
+      String[] muligheder = {"E-mail", "Navn", "Medlemsnummer"};
+      jComboBoxsøgeKriterie = new JComboBox<>(muligheder);
+      textFieldSøgUdFra = new JTextField();
+      textFieldSøgUdFra.setHorizontalAlignment(JTextField.CENTER);
+
+      jPanelStoreOmråde.add(jLabelInputText);
+      jPanelStoreOmråde.add(jLabelSøgGennem);
+      jPanelStoreOmråde.add(buttonNavn);
+      jPanelStoreOmråde.add(textAreaFremsøgteMembers);
+      jPanelStoreOmråde.add(jComboBoxsøgeKriterie);
+      jPanelStoreOmråde.add(textFieldSøgUdFra);
+
+      jLabelInputText.setBounds(100, 150, 170, 30);
+      jLabelSøgGennem.setBounds(100, 100, 170, 30);
+      jComboBoxsøgeKriterie.setBounds(300, 100, 170, 30);
+      textFieldSøgUdFra.setBounds(300, 150, 170, 30);
+      buttonNavn.setBounds(200, 200, 170, 30);
+      textAreaFremsøgteMembers.setBounds(25, 250, 525, 340);
+
+      Border blackline = BorderFactory.createLineBorder(Color.black);
+      jLabelInputText.setBorder(blackline);
+      jLabelSøgGennem.setBorder(blackline);
+      jComboBoxsøgeKriterie.setBorder(blackline);
+      textFieldSøgMedlemsnummer.setBorder(blackline);
+      textFieldSøgUdFra.setBorder(blackline);
+
+      DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
+      listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+      jComboBoxsøgeKriterie.setRenderer(listRenderer);
+
+      buttonNavn.addActionListener(alSøgMedlemFraKriterie);
     }
   };
 
@@ -262,7 +317,7 @@ public class Formand {
       try {
         alder = Integer.parseInt(textalder);
       } catch (NumberFormatException nfe) {
-        ui.showErrorNumbersOnly(frameFormand);
+        ui.showErrorNumbersOnlyAge(frameFormand);
       }
 
       boolean betalt = false;
@@ -275,27 +330,27 @@ public class Formand {
         String selectedAktivPassiv = getSelectedButtonText(buttonGroupPassivAktiv);
 
         boolean aktivPasiv = true;
-        if(selectedAktivPassiv.equals("Passiv")){
+        if (selectedAktivPassiv.equals("Passiv")) {
           aktivPasiv = false;
         }
-          //TODO få bragt memberNumber i spil.
+        //TODO få bragt memberNumber i spil.
         try {
-          NonCompetitor member = new NonCompetitor(navn, 0, alder,email,betalt,aktivPasiv);
+          NonCompetitor member = new NonCompetitor(navn, 0, alder, email, betalt, aktivPasiv);
           memberList.getAllNonCompetitors().add(member);
-        } catch (NullPointerException nullPointerException){
+        } catch (NullPointerException nullPointerException) {
           System.out.println("FEJL!");
         }
       } else if (medlemstype.equals("Konkurrence") && !navn.isEmpty() && alder > 0 && !email.isEmpty()) {
 
         String selectedMK = getSelectedButtonText(buttonGroupKøn);
         SwimmingDisciplins swimmingDisciplins = SwimmingDisciplins.valueOf(jComboBoxdisciplin.getItemAt(jComboBoxdisciplin.getSelectedIndex()).toString().toUpperCase(Locale.ROOT));
-        BestResultTraining bestResultTraining = new BestResultTraining(0,0,0,0);
-        BestResultCompetition bestResultCompetition = new BestResultCompetition(0,0,0,0);
+        BestResultTraining bestResultTraining = new BestResultTraining(0, 0, 0, 0);
+        BestResultCompetition bestResultCompetition = new BestResultCompetition(0, 0, 0, 0);
 
         try {
-          Competitor member = new Competitor(navn,0,alder,email,betalt,selectedMK,swimmingDisciplins,bestResultTraining,bestResultCompetition);
+          Competitor member = new Competitor(navn, 0, alder, email, betalt, selectedMK, swimmingDisciplins, bestResultTraining, bestResultCompetition);
           memberList.getAllCompetitors().add(member);
-        } catch (NullPointerException nullPointerException){
+        } catch (NullPointerException nullPointerException) {
           System.out.println("FEJL!");
         }
 
@@ -307,8 +362,46 @@ public class Formand {
     }
   };
 
+  ActionListener alSøgMedlemFraKriterie = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      String valgAfsøgning = jComboBoxsøgeKriterie.getItemAt(jComboBoxsøgeKriterie.getSelectedIndex()).toString();
+      String tekst = textFieldSøgUdFra.getText();
+     textAreaFremsøgteMembers.selectAll();
+     textAreaFremsøgteMembers.setText("");
+//
+//      jPanelStoreOmråde.revalidate();
+//      jPanelStoreOmråde.repaint();
+
+      if (!tekst.isEmpty()) {
+        if (valgAfsøgning.equals("E-mail")) {
+          ArrayList<Member> members = memberList.findSpecifikMembersByEmail(tekst);
+          ui.printFoundMembersBySearch(members, textAreaFremsøgteMembers);
+
+        } else if (valgAfsøgning.equals("Navn")) {
+          ArrayList<Member> members = memberList.findSpecifikMembersByName(tekst);
+          ui.printFoundMembersBySearch(members, textAreaFremsøgteMembers);
+
+        } else {
+          //medlemsnummer
+          int nummer = 0;
+          try {
+            nummer = Integer.parseInt(tekst);
+          } catch (NumberFormatException numberFormatException) {
+            ui.showErrorNumbersOnlyMember(frameFormand);
+          }
+          Member member = memberList.findSpecifikMemberByMemberNumber(nummer);
+          ui.printMemberFoundByMembernumber(member, textAreaFremsøgteMembers);
+        }
+
+      } else {
+        ui.showErrorSearchwordMissing(frameFormand);
+      }
+    }
+  };
+
   public String getSelectedButtonText(ButtonGroup buttonGroup) {
-    for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+    for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
       AbstractButton button = buttons.nextElement();
 
       if (button.isSelected()) {
