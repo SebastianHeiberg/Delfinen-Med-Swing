@@ -22,6 +22,15 @@ public class Kasserer {
   JPanel jPanelKnapper;
   JPanel jPanelStoreOmråde;
   JScrollPane jScrollPanevisMembers;
+  JPanel jPanelÆndreRestance;
+  JLabel jLabelVælgMedlem;
+  JTextField jTextFieldIndtastMedlemsnummer;
+  JButton jButtonbekræftMedlem;
+  JLabel jLabelVisMedlem;
+  JLabel jLabelRestancetitel;
+  String[] muligheder = {"I Restance", "Ikke i Restance"};
+  JComboBox valg = new JComboBox(muligheder);
+  JButton jButtonVælgFinal;
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
@@ -125,16 +134,15 @@ public class Kasserer {
       jPanelStoreOmråde.removeAll();
       jPanelStoreOmråde.repaint();
 
-      JPanel jPanelÆndreRestance = new JPanel(null);
+      jPanelÆndreRestance = new JPanel(null);
       jPanelÆndreRestance.setSize(575, 605);
-      JLabel jLabelVælgMedlem = new JLabel("1. Indtast medlemsNummer");
-      JTextField jTextFieldIndtastMedlemsnummer = new JTextField("", 15);
-      JButton jButtonbekræftMedlem = new JButton("2. Vælg");
-      JLabel jLabelVisMedlem = new JLabel("");
-      JLabel jLabelRestancetitel = new JLabel("3. Ændre restance til");
-      String[] muligheder = {"I Restance", "Ikke i Restance"};
-      JComboBox valg = new JComboBox(muligheder);
-      JButton jButtonVælgFinal = new JButton("4. bekæft");
+      jLabelVælgMedlem = new JLabel("1. Indtast medlemsNummer");
+      jTextFieldIndtastMedlemsnummer = new JTextField("", 15);
+      jButtonbekræftMedlem = new JButton("2. Vælg");
+      jLabelVisMedlem = new JLabel("");
+      jLabelRestancetitel = new JLabel("3. Ændre restance til");
+      valg = new JComboBox(muligheder);
+      jButtonVælgFinal = new JButton("4. bekæft");
       jPanelÆndreRestance.setBackground(Color.WHITE);
 
       //lav indhold
@@ -165,6 +173,8 @@ public class Kasserer {
       jTextFieldIndtastMedlemsnummer.setHorizontalAlignment(JTextField.CENTER);
       jLabelVælgMedlem.setHorizontalAlignment(JLabel.CENTER);
       jLabelRestancetitel.setHorizontalAlignment(JLabel.CENTER);
+
+      jButtonbekræftMedlem.addActionListener(alVælgMember);
 
       jPanelÆndreRestance.repaint();
     }
@@ -198,6 +208,32 @@ public class Kasserer {
       }
 
       textAreavisBudget.append(String.format(ui.printExpectedAnnualSum(expectedSum, antalmembers)));
+    }
+  };
+
+  ActionListener alVælgMember = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    Member member; {
+    }
+      try {
+      member = memberList.findSpecifikMemberByMemberNumber(Integer.parseInt(jTextFieldIndtastMedlemsnummer.getText()));
+    } catch (NumberFormatException nfe){
+      member = null;
+      ui.showErrorfindMember(frameKasserer);
+    }
+    if (member == null){
+      ui.showErrorMemberNull(frameKasserer);
+    } else {
+      jLabelVisMedlem.setText(ui.printMemberKassereÆndreRestance(member));
+    }
+    }
+  };
+
+  ActionListener albekræftValg = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
   };
 
