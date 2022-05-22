@@ -1,7 +1,6 @@
 package Funktioner;
 
-import Member.MemberList;
-import Member.NonCompetitor;
+import Member.*;
 import Persistence.FileHandle;
 import UI.UI;
 
@@ -11,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import java.util.Locale;
 
 public class Formand {
 
@@ -232,7 +232,7 @@ public class Formand {
       String kontingentBetalt = jComboBoxSvømmetype.getItemAt(jComboBoxSvømmetype.getSelectedIndex()).toString();
       String navn = jTextFieldNavn.getText();
       String email = jTextFieldEmail.getText();
-      Integer alder = 0;
+      Integer alder = -1;
       String textalder = jTextFieldAlder.getText();
       try {
         alder = Integer.parseInt(textalder);
@@ -245,7 +245,7 @@ public class Formand {
         betalt = true;
       }
 
-      if (medlemstype.equals("Motion")) {
+      if (medlemstype.equals("Motion") && !navn.isEmpty() && alder > 0 && !email.isEmpty()) {
 
         String selectedAktivPassiv = getSelectedButtonText(buttonGroupPassivAktiv);
 
@@ -258,11 +258,24 @@ public class Formand {
           NonCompetitor member = new NonCompetitor(navn, 0, alder,email,betalt,aktivPasiv);
           memberList.getAllNonCompetitors().add(member);
         } catch (NullPointerException nullPointerException){
-          System.out.println("første gæt");
+          System.out.println("FEJL!");
         }
+      } else if (medlemstype.equals("Konkurrence") && !navn.isEmpty() && alder > 0 && !email.isEmpty()) {
+
+        String selectedMK = getSelectedButtonText(buttonGroupKøn);
+        SwimmingDisciplins swimmingDisciplins = SwimmingDisciplins.valueOf(jComboBoxdisciplin.getItemAt(jComboBoxdisciplin.getSelectedIndex()).toString().toUpperCase(Locale.ROOT));
+        BestResultTraining bestResultTraining = new BestResultTraining(0,0,0,0);
+        BestResultCompetition bestResultCompetition = new BestResultCompetition(0,0,0,0);
+
+        try {
+          Competitor member = new Competitor(navn,0,alder,email,betalt,selectedMK,swimmingDisciplins,bestResultTraining,bestResultCompetition);
+          memberList.getAllCompetitors().add(member);
+        } catch (NullPointerException nullPointerException){
+          System.out.println("FEJL!");
+        }
+
       } else {
-
-
+        ui.showErrorCreatemember(frameFormand);
       }
 
 

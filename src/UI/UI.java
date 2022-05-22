@@ -15,6 +15,11 @@ public class UI {
     JOptionPane.showMessageDialog(frame, "Systemet kan ikke tilgås med det indtastede.");
   }
 
+  public void showErrorCreatemember(JFrame frame) {
+    JOptionPane.showMessageDialog(frame, "Fejl i det indtastede.");
+
+  }
+
   public void showErrorfindMember(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Kun tal i medlemsoplysninger.");
   }
