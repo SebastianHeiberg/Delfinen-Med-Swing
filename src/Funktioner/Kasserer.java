@@ -1,11 +1,13 @@
 package Funktioner;
 
+import Member.MemberList;
+import Persistence.FileHandle;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 
 public class Kasserer {
@@ -17,6 +19,9 @@ public class Kasserer {
   JPanel jPanelKnapper;
   JPanel jPanelStoreOmråde;
   JScrollPane jScrollPanevisMembers;
+  private MemberList memberList = new MemberList();
+  private FileHandle fileHandle = new FileHandle();
+
 
   public Kasserer() {
     frameKasserer = new JFrame();
@@ -88,6 +93,8 @@ public class Kasserer {
     public void actionPerformed(ActionEvent e) {
       //TODO noget med at gemme oplysningerne!
       frameKasserer.dispose();
+//      fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
+//      fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());
       new Funktioner.Login().run();
     }
   };
@@ -98,8 +105,8 @@ public class Kasserer {
       jPanelStoreOmråde.removeAll();
       jPanelStoreOmråde.repaint();
 
-      JPanel forsøg = new JPanel(null);
-      forsøg.setSize(575, 605);
+      JPanel jPanelÆndreRestance = new JPanel(null);
+      jPanelÆndreRestance.setSize(575, 605);
       JLabel jLabelVælgMedlem = new JLabel("1. Indtast medlemsNummer");
       JTextField jTextFieldIndtastMedlemsnummer = new JTextField("", 15);
       JButton jButtonbekræftMedlem = new JButton("2. Vælg");
@@ -108,16 +115,17 @@ public class Kasserer {
       String[] muligheder = {"I Restance", "Ikke i Restance"};
       JComboBox valg = new JComboBox(muligheder);
       JButton jButtonVælgFinal = new JButton("4. bekæft");
+      jPanelÆndreRestance.setBackground(Color.WHITE);
 
       //lav indhold
-      jPanelStoreOmråde.add(forsøg);
-      forsøg.add(jLabelVælgMedlem);
-      forsøg.add(jTextFieldIndtastMedlemsnummer);
-      forsøg.add(jButtonbekræftMedlem);
-      forsøg.add(jLabelVisMedlem);
-      forsøg.add(jLabelRestancetitel);
-      forsøg.add(valg);
-      forsøg.add(jButtonVælgFinal);
+      jPanelStoreOmråde.add(jPanelÆndreRestance);
+      jPanelÆndreRestance.add(jLabelVælgMedlem);
+      jPanelÆndreRestance.add(jTextFieldIndtastMedlemsnummer);
+      jPanelÆndreRestance.add(jButtonbekræftMedlem);
+      jPanelÆndreRestance.add(jLabelVisMedlem);
+      jPanelÆndreRestance.add(jLabelRestancetitel);
+      jPanelÆndreRestance.add(valg);
+      jPanelÆndreRestance.add(jButtonVælgFinal);
 
       jLabelVælgMedlem.setBounds(50, 150, 170, 30);
       jTextFieldIndtastMedlemsnummer.setBounds(240, 150, 170, 30);
@@ -138,7 +146,7 @@ public class Kasserer {
       jLabelVælgMedlem.setHorizontalAlignment(JLabel.CENTER);
       jLabelRestancetitel.setHorizontalAlignment(JLabel.CENTER);
 
-      forsøg.repaint();
+      jPanelÆndreRestance.repaint();
     }
   };
 
@@ -160,7 +168,7 @@ public class Kasserer {
       textAreavisBudget.append(String.format("""
                     
            Klubbens økonomi
-           Antal juniorer : 30
+           Antal juniorer  : 30
            Antal seniorer : 45
            Antal passive  : 12
            Antal medlemmer: 82
@@ -172,6 +180,7 @@ public class Kasserer {
     }
   };
 
-
-
+  public MemberList getMemberList() {
+    return memberList;
+  }
 }

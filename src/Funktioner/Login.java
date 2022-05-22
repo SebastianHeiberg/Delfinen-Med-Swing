@@ -6,9 +6,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import Persistence.FileHandle;
 import UI.UI;
 import Login.LoginCheck;
-import Persistence.FileHandle;
 
 public class Login {
 
@@ -110,7 +111,7 @@ public class Login {
     String password = String.valueOf(jPasswordField.getPassword());
     String username = jTextFieldUsername.getText();
 
-    if (funktion.equals("Funktioner.Formand")) {
+    if (funktion.equals("Formand")) {
       if (logins.checkAccesChairman(username, password)) {
         frameMain.dispose();
         Formand formand = new Formand();
@@ -119,16 +120,18 @@ public class Login {
       }
     }
 
-    if (funktion.equals("Funktioner.Kasserer")) {
+    if (funktion.equals("Kasserer")) {
       if (logins.checkAccesTreasurer(username, password)) {
         frameMain.dispose();
         Kasserer kasserer = new Kasserer();
+        kasserer.getMemberList().setAllNonCompetitors(fileHandle.loadNonCompetitors());
+        kasserer.getMemberList().setAllCompetitors(fileHandle.loadCompetitors());
       } else {
         ui.showErrorLogin(frameMain);
       }
     }
 
-    if (funktion.equals("Funktioner.Træner")) {
+    if (funktion.equals("Træner")) {
       if (logins.checkAccesCoach(username, password)) {
         frameMain.dispose();
         Træner træner = new Træner();
@@ -146,6 +149,4 @@ public class Login {
 //    new Funktioner.Login().run();
     Kasserer kas = new Kasserer();
   }
-
-
 }
