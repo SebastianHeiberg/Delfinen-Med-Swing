@@ -96,10 +96,24 @@ public class Login {
     jTextFieldUsername.setBorder(blackline);
     jPasswordField.setBorder(blackline);
 
+    //forsøg med farve
+    jlabelUsername.setOpaque(true);
+    jlabelUsername.setBackground(Color.WHITE);
+    jLabelPassword.setOpaque(true);
+    jLabelPassword.setBackground(Color.WHITE);
+    jLabelFunktion.setOpaque(true);
+    jLabelFunktion.setBackground(Color.WHITE);
+    jComboBoxOptions.setOpaque(true);
+    jComboBoxOptions.setBackground(Color.white);
+
+
     //centrer svar
     jTextFieldUsername.setHorizontalAlignment(JTextField.CENTER);
     jPasswordField.setHorizontalAlignment(JPasswordField.CENTER);
 
+    DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
+    listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+    jComboBoxOptions.setRenderer(listRenderer);
 
     frameMain.setSize(800, 400);
     frameMain.setLocationRelativeTo(null);
@@ -115,6 +129,7 @@ public class Login {
       if (logins.checkAccesChairman(username, password)) {
         frameMain.dispose();
         Formand formand = new Formand();
+        formand.run();
       } else {
         ui.showErrorLogin(frameMain);
       }
@@ -145,7 +160,7 @@ public class Login {
 
   public static void main(String[] args) throws IOException {
 //    new Funktioner.Login().run();
-//    new Kasserer().run();
-    new Formand().run();
+    new Kasserer().run();
+//    new Formand().run();
   }
 }

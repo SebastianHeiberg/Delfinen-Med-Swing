@@ -142,7 +142,6 @@ public class Kasserer {
       jLabelRestancetitel = new JLabel("3. Ændre restance til");
       jComboBoxvalg = new JComboBox(comboBowValmuligheder);
       jButtonVælgFinal = new JButton("4. bekæft");
-      jPanelÆndreRestance.setBackground(Color.WHITE);
 
       //lav indhold
       jPanelStoreOmråde.add(jPanelÆndreRestance);
@@ -161,6 +160,19 @@ public class Kasserer {
       jLabelRestancetitel.setBounds(50, 250, 170, 30);
       jComboBoxvalg.setBounds(240, 250, 170, 30);
       jButtonVælgFinal.setBounds(430, 250, 100, 30);
+
+      jLabelVælgMedlem.setOpaque(true);
+      jTextFieldIndtastMedlemsnummer.setOpaque(true);
+      jLabelVisMedlem.setOpaque(true);
+      jLabelRestancetitel.setOpaque(true);
+      jComboBoxvalg.setOpaque(true);
+      jLabelVælgMedlem.setBackground(Color.WHITE);
+      jTextFieldIndtastMedlemsnummer.setBackground(Color.WHITE);
+      jLabelVisMedlem.setBackground(Color.WHITE);
+      jLabelRestancetitel.setBackground(Color.WHITE);
+      jComboBoxvalg.setBackground(Color.WHITE);
+
+
 
 
       Border blackline = BorderFactory.createLineBorder(Color.black);

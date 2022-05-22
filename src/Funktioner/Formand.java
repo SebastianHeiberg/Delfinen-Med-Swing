@@ -95,9 +95,9 @@ public class Formand {
   ActionListener alExitandSave = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      frameFormand.dispose();
       fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
       fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());
+      frameFormand.dispose();
       new Funktioner.Login().run();
     }
   };
@@ -221,6 +221,31 @@ public class Formand {
       jLabelPassivSvømmer.setBorder(blackline);
       jLabelKøn.setBorder(blackline);
       jLabelSvømmeDisciplin.setBorder(blackline);
+
+      jLabelMedlemstype.setOpaque(true);
+      jlabelNavnPåSvommer.setOpaque(true);
+      jlabelAlderPåSvommer.setOpaque(true);
+      jLabelEmailPåSvommer.setOpaque(true);
+      jlabelKontigentBetalt.setOpaque(true);
+      jLabelPassivSvømmer.setOpaque(true);
+      jLabelKøn.setOpaque(true);
+      jLabelSvømmeDisciplin.setOpaque(true);
+      jComboBoxKontingent.setOpaque(true);
+      jComboBoxSvømmetype.setOpaque(true);
+      jComboBoxdisciplin.setOpaque(true);
+
+      jLabelMedlemstype.setBackground(Color.WHITE);
+      jlabelNavnPåSvommer.setBackground(Color.WHITE);
+      jlabelAlderPåSvommer.setBackground(Color.WHITE);
+      jLabelEmailPåSvommer.setBackground(Color.WHITE);
+      jlabelKontigentBetalt.setBackground(Color.WHITE);
+      jLabelPassivSvømmer.setBackground(Color.WHITE);;
+      jLabelKøn.setBackground(Color.WHITE);
+      jLabelSvømmeDisciplin.setBackground(Color.WHITE);
+      jComboBoxKontingent.setBackground(Color.WHITE);
+      jComboBoxSvømmetype.setBackground(Color.WHITE);
+      jComboBoxdisciplin.setBackground(Color.WHITE);
+
     }
   };
 
@@ -293,7 +318,6 @@ public class Formand {
 
     return null;
   }
-
 
   public void run() {
     memberList.setAllNonCompetitors(fileHandle.loadNonCompetitors());
