@@ -22,22 +22,10 @@ public class Formand {
   JPanel jPanelKnapper;
   JPanel jPanelStoreOmråde;
   JScrollPane jScrollPanevisMembers;
-  JLabel jLabelMedlemstype;
-  JLabel jlabelNavnPåSvommer;
-  JLabel jLabelEmailPåSvommer;
-  JLabel jlabelAlderPåSvommer;
-  JLabel jlabelKontigentBetalt;
-  JLabel jLabelKunForMotionister;
-  JLabel jLabelPassivSvømmer;
-  JLabel jLabelKunForKonkurrencesvommere;
-  JLabel jLabelKøn;
-  JLabel jLabelSvømmeDisciplin;
-  String [] typer = {"Motion","Konkurrence"};
   JComboBox jComboBoxSvømmetype;
   JTextField jTextFieldNavn;
   JTextField jTextFieldEmail;
   JTextField jTextFieldAlder;
-  String [] kontingentBetalt = {"Ja","Nej"};
   JComboBox jComboBoxKontingent;
   ButtonGroup buttonGroupPassivAktiv;
   JRadioButton jradioButtonAktiv;
@@ -46,19 +34,12 @@ public class Formand {
   JRadioButton jRadioButtonMand;
   JRadioButton jRadioButtonKvinde;
   JComboBox jComboBoxdisciplin;
-  String [] svømmetyper = {"Crawl","Bryst","Rygcrawl","Butterfly"};
-  JButton jButtonOpretNytMedlem;
-
-
-
-
-
-
-
 
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
+
+
 
   public Formand(){
     frameFormand = new JFrame();
@@ -145,20 +126,23 @@ public class Formand {
       jPanelStoreOmråde.repaint();
       jPanelStoreOmråde.setLayout(null);
 
-      jLabelMedlemstype = new JLabel("Medlemstype",JLabel.CENTER);
-      jlabelNavnPåSvommer = new JLabel("Navn på svømmer",JLabel.CENTER);
-      jLabelEmailPåSvommer = new JLabel("E-mail på svømmer",JLabel.CENTER);
-      jlabelAlderPåSvommer = new JLabel("Alder på svømmer",JLabel.CENTER);
-      jlabelKontigentBetalt = new JLabel("Er kontingent betalt",JLabel.CENTER);
-      jLabelKunForMotionister = new JLabel("Kun relevant for motionister");
-      jLabelPassivSvømmer = new JLabel("Passiv eller aktiv svømmer",JLabel.CENTER);
-      jLabelKunForKonkurrencesvommere = new JLabel("Kun relevant for konkurrencesvømmere");
-      jLabelKøn = new JLabel("Køn",JLabel.CENTER);
-      jLabelSvømmeDisciplin = new JLabel("Svømmedisciplin",JLabel.CENTER);
+      String [] kontingentBetalt = {"Ja","Nej"};
+      String [] typer = {"Motion","Konkurrence"};
+      String [] svømmetyper = {"Crawl","Bryst","Rygcrawl","Butterfly"};
+      JLabel jLabelMedlemstype = new JLabel("Medlemstype",JLabel.CENTER);
+      JLabel jlabelNavnPåSvommer = new JLabel("Navn på svømmer",JLabel.CENTER);
+      JLabel jLabelEmailPåSvommer = new JLabel("E-mail på svømmer",JLabel.CENTER);
+      JLabel jlabelAlderPåSvommer = new JLabel("Alder på svømmer",JLabel.CENTER);
+      JLabel jlabelKontigentBetalt = new JLabel("Er kontingent betalt",JLabel.CENTER);
+      JLabel jLabelKunForMotionister = new JLabel("Kun relevant for motionister");
+      JLabel jLabelPassivSvømmer = new JLabel("Kontingent type",JLabel.CENTER);
+      JLabel jLabelKunForKonkurrencesvommere = new JLabel("Kun relevant for konkurrencesvømmere");
+      JLabel jLabelKøn = new JLabel("Køn",JLabel.CENTER);
+      JLabel jLabelSvømmeDisciplin = new JLabel("Svømmedisciplin",JLabel.CENTER);
       jComboBoxSvømmetype = new JComboBox<>(typer);
-      jTextFieldNavn = new JTextField("",JTextField.CENTER);
-      jTextFieldEmail = new JTextField("",JTextField.CENTER);
-      jTextFieldAlder = new JTextField("",JTextField.CENTER);
+      jTextFieldNavn = new JTextField("");
+      jTextFieldEmail = new JTextField("");
+      jTextFieldAlder = new JTextField("");
       jComboBoxKontingent = new JComboBox<>(kontingentBetalt);
       jradioButtonAktiv = new JRadioButton("aktiv");
       jradioButtonPassiv = new JRadioButton("passiv");
@@ -169,7 +153,7 @@ public class Formand {
       buttonGroupPassivAktiv.add(jradioButtonAktiv);
       buttonGroupKøn = new ButtonGroup();
       jComboBoxdisciplin = new JComboBox<>(svømmetyper);
-      jButtonOpretNytMedlem = new JButton("Opret nyt medlem");
+      JButton jButtonOpretNytMedlem = new JButton("Opret nyt medlem");
 
 
       buttonGroupKøn.add(jRadioButtonMand);
@@ -194,6 +178,7 @@ public class Formand {
       jPanelStoreOmråde.add(jRadioButtonMand);
       jPanelStoreOmråde.add(jRadioButtonKvinde);
       jPanelStoreOmråde.add(jComboBoxdisciplin);
+      jPanelStoreOmråde.add(jButtonOpretNytMedlem);
 
 
       jLabelMedlemstype.setBounds(50,50,170,30);
@@ -217,6 +202,7 @@ public class Formand {
       jRadioButtonMand.setBounds(250,450,100,30);
       jRadioButtonKvinde.setBounds(350,450,100,30);
       jComboBoxdisciplin.setBounds(250,500,170,30);
+      jButtonOpretNytMedlem.setBounds(150,550,170,30);
 
       DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
       listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
