@@ -3,6 +3,7 @@ package UI;
 import Member.Member;
 import Member.NonCompetitor;
 import Member.Competitor;
+
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -10,24 +11,24 @@ import java.util.ArrayList;
 public class UI {
 
 
-  public void showErrorLogin (JFrame frame) {
+  public void showErrorLogin(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Systemet kan ikke tilgås med det indtastede.");
   }
 
-  public void showErrorfindMember (JFrame frame) {
+  public void showErrorfindMember(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Kun tal i medlemsoplysninger.");
   }
 
-  public void showErrorMemberNull (JFrame frame) {
+  public void showErrorMemberNull(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Kan ikke finde medlem.");
   }
 
-  public void showErrorFindMemberFirst (JFrame frame) {
+  public void showErrorFindMemberFirst(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Indtast medlemsnummer og vælg medlem først.");
   }
 
   public String printMembersInDebt(String name, double debt, int membernumber) {
-    return "\nMedlemsnummer: "+ membernumber + ", Navn: " + name + " , Restance: " + debt;
+    return "\nMedlemsnummer: " + membernumber + ", Navn: " + name + " , Restance: " + debt;
   }
 
   public String printMembersInDebtHeader() {
@@ -38,10 +39,9 @@ public class UI {
     return "Navn: " + member.getName() + " , Email: " + member.getEmail() + " , I restance: " + member.isMembershipPaid();
   }
 
-
   public String printExpectedAnnualSum(double expectedSum, int members) {
-        return "\nSamlet antal medlemmer: " + members +
-            "\nForventet årligt indkomst: " + expectedSum + " kr.";
+    return "\nSamlet antal medlemmer: " + members +
+        "\nForventet årligt indkomst: " + expectedSum + " kr.";
   }
 
   public void printAllMembers(ArrayList<NonCompetitor> memberListNonCompetitor, ArrayList<Competitor> memberListCompetitor, JTextArea textAreavisMedlemmerPanel) {
@@ -64,7 +64,7 @@ public class UI {
     } else {
       return String.format("""
           Medlemsnummer: %d  Navn: %s   Email: %s  Alder:  %d år  restance: %s
-          """,  member.getMemberNumber(), member.getName(), member.getEmail(), member.getAge(), member.isMembershipPaid());
+          """, member.getMemberNumber(), member.getName(), member.getEmail(), member.getAge(), member.isMembershipPaid());
     }
   }
 }

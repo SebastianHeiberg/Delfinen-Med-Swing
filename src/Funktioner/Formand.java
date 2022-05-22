@@ -1,6 +1,5 @@
 package Funktioner;
 
-import Member.Member;
 import Member.MemberList;
 import Persistence.FileHandle;
 import UI.UI;
@@ -22,6 +21,21 @@ public class Formand {
   JPanel jPanelKnapper;
   JPanel jPanelStoreOmråde;
   JScrollPane jScrollPanevisMembers;
+  JLabel jLabelMedlemstype;
+  JLabel jlabelNavnPåSvommer;
+  JLabel jLabelEmailPåSvommer;
+  JLabel jlabelAlderPåSvommer;
+  JLabel jlabelKontigentBetalt;
+  JLabel jLabelKunForMotionister;
+  JLabel jLabelPassivSvømmer;
+  JLabel jLabelKunForKonkurrencesvommere;
+  JLabel jLabelKøn;
+  JLabel jLabelSvømmeDisciplin;
+
+
+
+
+
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
@@ -63,8 +77,9 @@ public class Formand {
     buttonExit.setBounds(15,420,180,60);
 
     //knappernes funktion
-    buttonExit.addActionListener(alExit);
-    buttonVisMedlemmer.addActionListener(alShowMembers);
+    buttonExit.addActionListener(alExitandSave);
+    buttonVisMedlemmer.addActionListener(alShowAllMembers);
+    buttonTilføjMedlem.addActionListener(alNytMedlem);
 
     //Det store område
     jPanelStoreOmråde = new JPanel(null);
@@ -75,7 +90,7 @@ public class Formand {
 
   }
 
-  ActionListener alExit = new ActionListener() {
+  ActionListener alExitandSave = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       frameFormand.dispose();
@@ -85,11 +100,10 @@ public class Formand {
     }
   };
 
-  ActionListener alShowMembers = new ActionListener() {
+  ActionListener alShowAllMembers = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
-//      jPanelStoreOmråde.revalidate();
       jPanelStoreOmråde.repaint();
       jPanelStoreOmråde.setLayout(new BorderLayout());
       JTextArea textAreavisMedlemmerPanel = new JTextArea();
@@ -101,6 +115,15 @@ public class Formand {
 
       ui.printAllMembers(memberList.getAllNonCompetitors(),memberList.getAllCompetitors(),textAreavisMedlemmerPanel);
 
+    }
+  };
+
+  ActionListener alNytMedlem = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelStoreOmråde.removeAll();
+      jPanelStoreOmråde.repaint();
+      jPanelStoreOmråde.setLayout(null);
     }
   };
 
