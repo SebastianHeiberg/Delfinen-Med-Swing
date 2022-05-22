@@ -1,8 +1,11 @@
 package UI;
 
 import Member.Member;
-
+import Member.NonCompetitor;
+import Member.Competitor;
 import javax.swing.*;
+import java.util.ArrayList;
+
 
 public class UI {
 
@@ -41,4 +44,27 @@ public class UI {
             "\nForventet årligt indkomst: " + expectedSum + " kr.";
   }
 
+  public void printAllMembers(ArrayList<NonCompetitor> memberListNonCompetitor, ArrayList<Competitor> memberListCompetitor, JTextArea textAreavisMedlemmerPanel) {
+    textAreavisMedlemmerPanel.append("\nKlubbens ikke-konkurrencemedlemmer:\n");
+    for (Member member : memberListNonCompetitor) {
+      textAreavisMedlemmerPanel.append(printMember(member));
+    }
+    textAreavisMedlemmerPanel.append("\nKlubben konkurrencemedlemmer:\n");
+    for (Competitor competitor : memberListCompetitor) {
+      textAreavisMedlemmerPanel.append(printMember(competitor));
+    }
+  }
+
+  public String printMember(Member member) {
+
+    if (member instanceof Competitor competitor) {
+      return String.format("""
+          Medlemsnummer: %d  Navn: %s   Køn: %s  Email: %s  Alder:  %d år  Restance: %s  Svømmedisciplin: %s
+          """, member.getMemberNumber(), member.getName(), competitor.getGender(), member.getEmail(), member.getAge(), member.isMembershipPaid(), competitor.getSwimmingDisciplin());
+    } else {
+      return String.format("""
+          Medlemsnummer: %d  Navn: %s   Email: %s  Alder:  %d år  restance: %s
+          """,  member.getMemberNumber(), member.getName(), member.getEmail(), member.getAge(), member.isMembershipPaid());
+    }
+  }
 }

@@ -120,7 +120,6 @@ public class Kasserer {
   ActionListener alExit = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      //TODO noget med at gemme oplysningerne!
       frameKasserer.dispose();
       fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
       fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());

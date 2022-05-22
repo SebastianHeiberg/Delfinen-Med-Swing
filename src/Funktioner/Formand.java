@@ -1,5 +1,6 @@
 package Funktioner;
 
+import Member.Member;
 import Member.MemberList;
 import Persistence.FileHandle;
 import UI.UI;
@@ -19,6 +20,8 @@ public class Formand {
   JButton buttonRedigerMedlem;
   JButton buttonExit;
   JPanel jPanelKnapper;
+  JPanel jPanelStoreOmråde;
+  JScrollPane jScrollPanevisMembers;
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
@@ -31,7 +34,7 @@ public class Formand {
     frameFormand.setLocationRelativeTo(null);
     frameFormand.setLayout(null);
 
-    buttonVisMedlemmer = new JButton("Vis medlemmer");
+    buttonVisMedlemmer = new JButton("Vis alle medlemmer");
     buttonTilføjMedlem = new JButton("Tilføj medlem");
     buttonSøgEfterMedlem = new JButton("Søg efter medlem");
     buttonSletMedlem = new JButton("Slet medlem");
@@ -61,17 +64,43 @@ public class Formand {
 
     //knappernes funktion
     buttonExit.addActionListener(alExit);
+    buttonVisMedlemmer.addActionListener(alShowMembers);
+
+    //Det store område
+    jPanelStoreOmråde = new JPanel(null);
+    jPanelStoreOmråde.setSize(590, 800);
+    frameFormand.add(jPanelStoreOmråde);
+    jPanelStoreOmråde.setBounds(210, 5, 590, 800);
+
 
   }
 
   ActionListener alExit = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      //TODO noget med at gemme oplysningerne!
       frameFormand.dispose();
       fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
       fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());
       new Funktioner.Login().run();
+    }
+  };
+
+  ActionListener alShowMembers = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelStoreOmråde.removeAll();
+//      jPanelStoreOmråde.revalidate();
+      jPanelStoreOmråde.repaint();
+      jPanelStoreOmråde.setLayout(new BorderLayout());
+      JTextArea textAreavisMedlemmerPanel = new JTextArea();
+      jScrollPanevisMembers = new JScrollPane(textAreavisMedlemmerPanel);
+      jPanelStoreOmråde.add(jScrollPanevisMembers);
+      jScrollPanevisMembers.setSize(575, 605);
+      jScrollPanevisMembers.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+      jScrollPanevisMembers.setEnabled(false);
+
+      ui.printAllMembers(memberList.getAllNonCompetitors(),memberList.getAllCompetitors(),textAreavisMedlemmerPanel);
+
     }
   };
 
