@@ -1,6 +1,7 @@
 package Funktioner;
 
 import Member.MemberList;
+import Member.NonCompetitor;
 import Persistence.FileHandle;
 import UI.UI;
 
@@ -9,6 +10,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 
 public class Formand {
 
@@ -40,8 +42,7 @@ public class Formand {
   UI ui = new UI();
 
 
-
-  public Formand(){
+  public Formand() {
     frameFormand = new JFrame();
     frameFormand.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frameFormand.setVisible(true);
@@ -74,8 +75,8 @@ public class Formand {
     buttonSøgEfterMedlem.setBounds(15, 100, 180, 60);
     buttonRedigerMedlem.setBounds(15, 180, 180, 60);
     buttonVisMedlemmer.setBounds(15, 260, 180, 60);
-    buttonSletMedlem.setBounds(15,340,180,60);
-    buttonExit.setBounds(15,420,180,60);
+    buttonSletMedlem.setBounds(15, 340, 180, 60);
+    buttonExit.setBounds(15, 420, 180, 60);
 
     //knappernes funktion
     buttonExit.addActionListener(alExitandSave);
@@ -114,7 +115,7 @@ public class Formand {
       jScrollPanevisMembers.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
       jScrollPanevisMembers.setEnabled(false);
 
-      ui.printAllMembers(memberList.getAllNonCompetitors(),memberList.getAllCompetitors(),textAreavisMedlemmerPanel);
+      ui.printAllMembers(memberList.getAllNonCompetitors(), memberList.getAllCompetitors(), textAreavisMedlemmerPanel);
 
     }
   };
@@ -126,19 +127,19 @@ public class Formand {
       jPanelStoreOmråde.repaint();
       jPanelStoreOmråde.setLayout(null);
 
-      String [] kontingentBetalt = {"Ja","Nej"};
-      String [] typer = {"Motion","Konkurrence"};
-      String [] svømmetyper = {"Crawl","Bryst","Rygcrawl","Butterfly"};
-      JLabel jLabelMedlemstype = new JLabel("Medlemstype",JLabel.CENTER);
-      JLabel jlabelNavnPåSvommer = new JLabel("Navn på svømmer",JLabel.CENTER);
-      JLabel jLabelEmailPåSvommer = new JLabel("E-mail på svømmer",JLabel.CENTER);
-      JLabel jlabelAlderPåSvommer = new JLabel("Alder på svømmer",JLabel.CENTER);
-      JLabel jlabelKontigentBetalt = new JLabel("Er kontingent betalt",JLabel.CENTER);
+      String[] kontingentBetalt = {"Ja", "Nej"};
+      String[] typer = {"Motion", "Konkurrence"};
+      String[] svømmetyper = {"Crawl", "Bryst", "Rygcrawl", "Butterfly"};
+      JLabel jLabelMedlemstype = new JLabel("Medlemstype", JLabel.CENTER);
+      JLabel jlabelNavnPåSvommer = new JLabel("Navn på svømmer", JLabel.CENTER);
+      JLabel jLabelEmailPåSvommer = new JLabel("E-mail på svømmer", JLabel.CENTER);
+      JLabel jlabelAlderPåSvommer = new JLabel("Alder på svømmer", JLabel.CENTER);
+      JLabel jlabelKontigentBetalt = new JLabel("Er kontingent betalt", JLabel.CENTER);
       JLabel jLabelKunForMotionister = new JLabel("Kun relevant for motionister");
-      JLabel jLabelPassivSvømmer = new JLabel("Kontingent type",JLabel.CENTER);
+      JLabel jLabelPassivSvømmer = new JLabel("Kontingent type", JLabel.CENTER);
       JLabel jLabelKunForKonkurrencesvommere = new JLabel("Kun relevant for konkurrencesvømmere");
-      JLabel jLabelKøn = new JLabel("Køn",JLabel.CENTER);
-      JLabel jLabelSvømmeDisciplin = new JLabel("Svømmedisciplin",JLabel.CENTER);
+      JLabel jLabelKøn = new JLabel("Køn", JLabel.CENTER);
+      JLabel jLabelSvømmeDisciplin = new JLabel("Svømmedisciplin", JLabel.CENTER);
       jComboBoxSvømmetype = new JComboBox<>(typer);
       jTextFieldNavn = new JTextField("");
       jTextFieldEmail = new JTextField("");
@@ -146,14 +147,15 @@ public class Formand {
       jComboBoxKontingent = new JComboBox<>(kontingentBetalt);
       jradioButtonAktiv = new JRadioButton("aktiv");
       jradioButtonPassiv = new JRadioButton("passiv");
-      jRadioButtonKvinde = new JRadioButton("Kvinde");
-      jRadioButtonMand = new JRadioButton("Mand");
+      jRadioButtonKvinde = new JRadioButton("K");
+      jRadioButtonMand = new JRadioButton("M");
       buttonGroupPassivAktiv = new ButtonGroup();
       buttonGroupPassivAktiv.add(jradioButtonPassiv);
       buttonGroupPassivAktiv.add(jradioButtonAktiv);
       buttonGroupKøn = new ButtonGroup();
       jComboBoxdisciplin = new JComboBox<>(svømmetyper);
       JButton jButtonOpretNytMedlem = new JButton("Opret nyt medlem");
+      jButtonOpretNytMedlem.addActionListener(alLavNytMedlem);
 
 
       buttonGroupKøn.add(jRadioButtonMand);
@@ -181,28 +183,28 @@ public class Formand {
       jPanelStoreOmråde.add(jButtonOpretNytMedlem);
 
 
-      jLabelMedlemstype.setBounds(50,50,170,30);
-      jlabelNavnPåSvommer.setBounds(50,100,170,30);
-      jlabelAlderPåSvommer.setBounds(50,150,170,30);
-      jLabelEmailPåSvommer.setBounds(50,200,170,30);
-      jlabelKontigentBetalt.setBounds(50,250,170,30);
-      jLabelKunForMotionister.setBounds(150,300,200,30);
-      jLabelPassivSvømmer.setBounds(50,350,170,30);
-      jLabelKunForKonkurrencesvommere.setBounds(125,400,250,30);
-      jLabelKøn.setBounds(50,450,170,30);
-      jLabelSvømmeDisciplin.setBounds(50,500,170,30);
+      jLabelMedlemstype.setBounds(50, 50, 170, 30);
+      jlabelNavnPåSvommer.setBounds(50, 100, 170, 30);
+      jLabelEmailPåSvommer.setBounds(50, 150, 170, 30);
+      jlabelAlderPåSvommer.setBounds(50, 200, 170, 30);
+      jlabelKontigentBetalt.setBounds(50, 250, 170, 30);
+      jLabelKunForMotionister.setBounds(150, 300, 200, 30);
+      jLabelPassivSvømmer.setBounds(50, 350, 170, 30);
+      jLabelKunForKonkurrencesvommere.setBounds(125, 400, 250, 30);
+      jLabelKøn.setBounds(50, 450, 170, 30);
+      jLabelSvømmeDisciplin.setBounds(50, 500, 170, 30);
 
-      jComboBoxSvømmetype.setBounds(250,50,170,30);
-      jTextFieldNavn.setBounds(250,100,170,30);
-      jTextFieldEmail.setBounds(250,150,170,30);
-      jTextFieldAlder.setBounds(250,200,170,30);
-      jComboBoxKontingent.setBounds(250,250,170,30);
-      jradioButtonPassiv.setBounds(250,350,100,30);
-      jradioButtonAktiv.setBounds(350,350,100,30);
-      jRadioButtonMand.setBounds(250,450,100,30);
-      jRadioButtonKvinde.setBounds(350,450,100,30);
-      jComboBoxdisciplin.setBounds(250,500,170,30);
-      jButtonOpretNytMedlem.setBounds(150,550,170,30);
+      jComboBoxSvømmetype.setBounds(250, 50, 170, 30);
+      jTextFieldNavn.setBounds(250, 100, 170, 30);
+      jTextFieldEmail.setBounds(250, 150, 170, 30);
+      jTextFieldAlder.setBounds(250, 200, 170, 30);
+      jComboBoxKontingent.setBounds(250, 250, 170, 30);
+      jradioButtonPassiv.setBounds(250, 350, 100, 30);
+      jradioButtonAktiv.setBounds(350, 350, 100, 30);
+      jRadioButtonMand.setBounds(250, 450, 100, 30);
+      jRadioButtonKvinde.setBounds(350, 450, 100, 30);
+      jComboBoxdisciplin.setBounds(250, 500, 170, 30);
+      jButtonOpretNytMedlem.setBounds(150, 550, 170, 30);
 
       DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
       listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
@@ -221,6 +223,64 @@ public class Formand {
       jLabelSvømmeDisciplin.setBorder(blackline);
     }
   };
+
+  ActionListener alLavNytMedlem = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+      String medlemstype = jComboBoxSvømmetype.getItemAt(jComboBoxSvømmetype.getSelectedIndex()).toString();
+      String kontingentBetalt = jComboBoxSvømmetype.getItemAt(jComboBoxSvømmetype.getSelectedIndex()).toString();
+      String navn = jTextFieldNavn.getText();
+      String email = jTextFieldEmail.getText();
+      Integer alder = 0;
+      String textalder = jTextFieldAlder.getText();
+      try {
+        alder = Integer.parseInt(textalder);
+      } catch (NumberFormatException nfe) {
+        ui.showErrorNumbersOnly(frameFormand);
+      }
+
+      boolean betalt = false;
+      if (kontingentBetalt.equals("Ja")) {
+        betalt = true;
+      }
+
+      if (medlemstype.equals("Motion")) {
+
+        String selectedAktivPassiv = getSelectedButtonText(buttonGroupPassivAktiv);
+
+        boolean aktivPasiv = true;
+        if(selectedAktivPassiv.equals("Passiv")){
+          aktivPasiv = false;
+        }
+          //TODO få bragt memberNumber i spil.
+        try {
+          NonCompetitor member = new NonCompetitor(navn, 0, alder,email,betalt,aktivPasiv);
+          memberList.getAllNonCompetitors().add(member);
+        } catch (NullPointerException nullPointerException){
+          System.out.println("første gæt");
+        }
+      } else {
+
+
+      }
+
+
+    }
+  };
+
+  public String getSelectedButtonText(ButtonGroup buttonGroup) {
+    for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+      AbstractButton button = buttons.nextElement();
+
+      if (button.isSelected()) {
+        return button.getText();
+      }
+    }
+
+    return null;
+  }
+
 
   public void run() {
     memberList.setAllNonCompetitors(fileHandle.loadNonCompetitors());

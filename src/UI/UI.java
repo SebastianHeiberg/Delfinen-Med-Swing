@@ -23,6 +23,10 @@ public class UI {
     JOptionPane.showMessageDialog(frame, "Kan ikke finde medlem.");
   }
 
+  public void showErrorNumbersOnly(JFrame frame) {
+    JOptionPane.showMessageDialog(frame, "Kun tal i aldersfeltet.");
+  }
+
   public void showErrorFindMemberFirst(JFrame frame) {
     JOptionPane.showMessageDialog(frame, "Indtast medlemsnummer og vælg medlem først.");
   }
