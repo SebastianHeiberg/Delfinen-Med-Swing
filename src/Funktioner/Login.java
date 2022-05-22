@@ -1,11 +1,14 @@
+package Funktioner;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
+import UI.UI;
 import Login.LoginCheck;
+import Persistence.FileHandle;
 
 public class Login {
 
@@ -46,7 +49,6 @@ public class Login {
         frameMain.dispose();
       }
     });
-
     login.addActionListener(this::attemptLoginuser);
 
     //alle knapperne
@@ -108,7 +110,7 @@ public class Login {
     String password = String.valueOf(jPasswordField.getPassword());
     String username = jTextFieldUsername.getText();
 
-    if (funktion.equals("Formand")) {
+    if (funktion.equals("Funktioner.Formand")) {
       if (logins.checkAccesChairman(username, password)) {
         frameMain.dispose();
         Formand formand = new Formand();
@@ -117,7 +119,7 @@ public class Login {
       }
     }
 
-    if (funktion.equals("Kasserer")) {
+    if (funktion.equals("Funktioner.Kasserer")) {
       if (logins.checkAccesTreasurer(username, password)) {
         frameMain.dispose();
         Kasserer kasserer = new Kasserer();
@@ -126,7 +128,7 @@ public class Login {
       }
     }
 
-    if (funktion.equals("Træner")) {
+    if (funktion.equals("Funktioner.Træner")) {
       if (logins.checkAccesCoach(username, password)) {
         frameMain.dispose();
         Træner træner = new Træner();
@@ -141,8 +143,8 @@ public class Login {
   }
 
   public static void main(String[] args) throws IOException {
-//    new Login().run();
-//    Kasserer kas = new Kasserer();
+//    new Funktioner.Login().run();
+    Kasserer kas = new Kasserer();
   }
 
 

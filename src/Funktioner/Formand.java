@@ -1,3 +1,5 @@
+package Funktioner;
+
 import javax.swing.*;
 
 public class Formand {
