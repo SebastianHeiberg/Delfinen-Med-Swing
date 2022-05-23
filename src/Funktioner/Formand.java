@@ -16,6 +16,7 @@ import java.util.Locale;
 public class Formand {
 
   JFrame frameFormand;
+  //højreMenuen
   JButton buttonVisMedlemmer;
   JButton buttonTilføjMedlem;
   JButton buttonSøgEfterMedlem;
@@ -24,6 +25,7 @@ public class Formand {
   JButton buttonExit;
   JPanel jPanelKnapper;
   JPanel jPanelStoreOmråde;
+  //tilføj medlem
   JScrollPane jScrollPanevisMembers;
   JComboBox jComboBoxSvømmetype;
   JTextField jTextFieldNavn;
@@ -37,17 +39,29 @@ public class Formand {
   JRadioButton jRadioButtonMand;
   JRadioButton jRadioButtonKvinde;
   JComboBox jComboBoxdisciplin;
+  //søg medlem
   JTextField textFieldSøgUdFra;
   JTextField textFieldSøgMedlemsnummer;
   JButton buttonNavn;
   JTextArea textAreaFremsøgteMembers;
   JComboBox jComboBoxsøgeKriterie;
-  JTextArea test;
   JScrollPane jScrollPaneFound;
+  //slet medlem
   JTextField jTextFieldIndtastMedlemsnummer;
   JButton jButtonBekræftSletning;
   JButton jButtonVælgMedlem;
   JLabel jLabelVismember;
+  //rediger medlem
+  JTextField jTextFieldRedigerNavn;
+  JTextField jTextFieldRedigerEmail;
+  JTextField jTextFieldRedigeralder;
+  JComboBox jComboBoxRedigerPassivAktiv;
+  JButton jButtonRedigerNavn;
+  JButton jButtonRedigerAlder;
+  JButton jButtonRedigerEmail;
+  JButton jButtonRedigerPasAkt;
+
+  DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
   private MemberList memberList = new MemberList();
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
@@ -90,11 +104,12 @@ public class Formand {
     buttonExit.setBounds(15, 420, 180, 60);
 
     //knappernes funktion
-    buttonExit.addActionListener(alExitandSave);
-    buttonVisMedlemmer.addActionListener(alShowAllMembers);
-    buttonTilføjMedlem.addActionListener(alNytMedlem);
-    buttonSøgEfterMedlem.addActionListener(alSøgMedlem);
-    buttonSletMedlem.addActionListener(alSletmember);
+    buttonExit.addActionListener(alMenuOptionExitandSave);
+    buttonVisMedlemmer.addActionListener(alMenuOptionShowAllMembers);
+    buttonTilføjMedlem.addActionListener(alMenuOptionCreateNewMember);
+    buttonSøgEfterMedlem.addActionListener(alMenuOptionSearchMember);
+    buttonSletMedlem.addActionListener(alMenuOptionDeleteMember);
+    buttonRedigerMedlem.addActionListener(alMenuoptionEditMember);
 
     //Det store område
     jPanelStoreOmråde = new JPanel(null);
@@ -105,7 +120,7 @@ public class Formand {
 
   }
 
-  ActionListener alExitandSave = new ActionListener() {
+  ActionListener alMenuOptionExitandSave = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
@@ -115,7 +130,7 @@ public class Formand {
     }
   };
 
-  ActionListener alShowAllMembers = new ActionListener() {
+  ActionListener alMenuOptionShowAllMembers = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
@@ -133,7 +148,7 @@ public class Formand {
     }
   };
 
-  ActionListener alSletmember = new ActionListener() {
+  ActionListener alMenuOptionDeleteMember = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
@@ -144,13 +159,20 @@ public class Formand {
       jButtonBekræftSletning = new JButton("Slet medlem");
       jLabelVismember = new JLabel("");
       jButtonVælgMedlem = new JButton("Vælg");
-      JLabel jLabelmembernumber = new JLabel("Indtast medlemsnummer",JLabel.CENTER);
+      JLabel jLabelmembernumber = new JLabel("Indtast medlemsnummer", JLabel.CENTER);
+      jButtonBekræftSletning = new JButton("Bekræft sletning");
 
       jPanelStoreOmråde.add(jTextFieldIndtastMedlemsnummer);
       jPanelStoreOmråde.add(jButtonBekræftSletning);
       jPanelStoreOmråde.add(jLabelVismember);
       jPanelStoreOmråde.add(jButtonVælgMedlem);
       jPanelStoreOmråde.add(jLabelmembernumber);
+
+      jLabelmembernumber.setBounds(50, 150, 170, 30);
+      jTextFieldIndtastMedlemsnummer.setBounds(240, 150, 170, 30);
+      jButtonVælgMedlem.setBounds(440, 150, 90, 30);
+      jLabelVismember.setBounds(50, 200, 480, 30);
+      jButtonBekræftSletning.setBounds(240, 250, 170, 30);
 
       jLabelmembernumber.setOpaque(true);
       jTextFieldIndtastMedlemsnummer.setOpaque(true);
@@ -159,19 +181,18 @@ public class Formand {
       jTextFieldIndtastMedlemsnummer.setBackground(Color.WHITE);
       jLabelVismember.setBackground(Color.WHITE);
 
-      jLabelmembernumber.setBounds(50, 150, 170, 30);
-      jTextFieldIndtastMedlemsnummer.setBounds(240, 150, 170, 30);
-      jLabelVismember.setBounds(50, 200, 480, 30);
-      jButtonVælgMedlem.setBounds(440, 150, 90, 30);
-      jButtonBekræftSletning.setBounds(240, 250, 170, 30);
+      Border blackline = BorderFactory.createLineBorder(Color.black);
+      jLabelmembernumber.setBorder(blackline);
+      jTextFieldIndtastMedlemsnummer.setBorder(blackline);
+      jLabelVismember.setBorder(blackline);
 
-      jButtonVælgMedlem.addActionListener(alConfirmMember);
-      jButtonBekræftSletning.addActionListener(alsletspecificMember);
+      jButtonVælgMedlem.addActionListener(alDisplayMemberForDeletion);
+      jButtonBekræftSletning.addActionListener(alDeleteSpecificMember);
 
     }
   };
 
-  ActionListener alNytMedlem = new ActionListener() {
+  ActionListener alMenuOptionCreateNewMember = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
@@ -206,7 +227,7 @@ public class Formand {
       buttonGroupKøn = new ButtonGroup();
       jComboBoxdisciplin = new JComboBox<>(svømmetyper);
       JButton jButtonOpretNytMedlem = new JButton("Opret nyt medlem");
-      jButtonOpretNytMedlem.addActionListener(alLavNytMedlem);
+      jButtonOpretNytMedlem.addActionListener(alMakeNewMember);
 
 
       buttonGroupKøn.add(jRadioButtonMand);
@@ -257,7 +278,6 @@ public class Formand {
       jComboBoxdisciplin.setBounds(250, 500, 170, 30);
       jButtonOpretNytMedlem.setBounds(150, 550, 170, 30);
 
-      DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
       listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
       jComboBoxKontingent.setRenderer(listRenderer);
       jComboBoxSvømmetype.setRenderer(listRenderer);
@@ -301,7 +321,7 @@ public class Formand {
     }
   };
 
-  ActionListener alSøgMedlem = new ActionListener() {
+  ActionListener alMenuOptionSearchMember = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
@@ -356,12 +376,121 @@ public class Formand {
       jComboBoxsøgeKriterie.setRenderer(listRenderer);
 
 
-
-      buttonNavn.addActionListener(alSøgMedlemFraKriterie);
+      buttonNavn.addActionListener(alSearchMemberFromCriteria);
     }
   };
 
-  ActionListener alSøgMedlemFraKriterie = new ActionListener() {
+  ActionListener alMenuoptionEditMember = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelStoreOmråde.removeAll();
+      jPanelStoreOmråde.repaint();
+      jPanelStoreOmråde.setLayout(null);
+
+      jTextFieldIndtastMedlemsnummer = new JTextField();
+      jLabelVismember = new JLabel("");
+      jButtonVælgMedlem = new JButton("Vælg");
+      JLabel jLabelmembernumber = new JLabel("Indtast medlemsnummer", JLabel.CENTER);
+      JLabel jLabelØnsketÆndret = new JLabel("Opdater oplysninger", JLabel.CENTER);
+      JLabel jLabelNavn = new JLabel("Navn", JLabel.CENTER);
+      JLabel jLabelEmail = new JLabel("Email", JLabel.CENTER);
+      JLabel jLabelAlder = new JLabel("Alder", JLabel.CENTER);
+      JLabel jlabelPassivAktiv = new JLabel("Passiv / aktiv", JLabel.CENTER);
+      jTextFieldRedigerNavn = new JTextField();
+      jTextFieldRedigerEmail = new JTextField();
+      jTextFieldRedigeralder = new JTextField();
+      String[] passivAktiv = {"Passiv", "Aktiv"};
+      jComboBoxRedigerPassivAktiv = new JComboBox(passivAktiv);
+      JButton jButtonRedigerNavn = new JButton("Opdater");
+      JButton jButtonRedigerAlder = new JButton("Opdater");
+      JButton jButtonRedigerEmail = new JButton("Opdater");
+      JButton jButtonRedigerPasAkt = new JButton("Opdater");
+
+      jPanelStoreOmråde.add(jTextFieldIndtastMedlemsnummer);
+      jPanelStoreOmråde.add(jLabelVismember);
+      jPanelStoreOmråde.add(jButtonVælgMedlem);
+      jPanelStoreOmråde.add(jLabelmembernumber);
+      jPanelStoreOmråde.add(jLabelØnsketÆndret);
+      jPanelStoreOmråde.add(jLabelNavn);
+      jPanelStoreOmråde.add(jLabelAlder);
+      jPanelStoreOmråde.add(jLabelEmail);
+      jPanelStoreOmråde.add(jlabelPassivAktiv);
+      jPanelStoreOmråde.add(jTextFieldRedigerNavn);
+      jPanelStoreOmråde.add(jTextFieldRedigerEmail);
+      jPanelStoreOmråde.add(jTextFieldRedigeralder);
+      jPanelStoreOmråde.add(jComboBoxRedigerPassivAktiv);
+      jPanelStoreOmråde.add(jButtonRedigerNavn);
+      jPanelStoreOmråde.add(jButtonRedigerAlder);
+      jPanelStoreOmråde.add(jButtonRedigerEmail);
+      jPanelStoreOmråde.add(jButtonRedigerPasAkt);
+
+      jLabelNavn.setOpaque(true);
+      jLabelEmail.setOpaque(true);
+      jLabelAlder.setOpaque(true);
+      jlabelPassivAktiv.setOpaque(true);
+      jLabelmembernumber.setOpaque(true);
+      jTextFieldIndtastMedlemsnummer.setOpaque(true);
+      jLabelVismember.setOpaque(true);
+      jTextFieldRedigerNavn.setOpaque(true);
+      jTextFieldRedigerEmail.setOpaque(true);
+      jTextFieldRedigeralder.setOpaque(true);
+      jComboBoxRedigerPassivAktiv.setOpaque(true);
+
+      jLabelNavn.setBackground(Color.WHITE);
+      jLabelEmail.setBackground(Color.WHITE);
+      jLabelAlder.setBackground(Color.WHITE);
+      jlabelPassivAktiv.setBackground(Color.WHITE);
+      jLabelmembernumber.setBackground(Color.WHITE);
+      jTextFieldIndtastMedlemsnummer.setBackground(Color.WHITE);
+      jLabelVismember.setBackground(Color.WHITE);
+      jTextFieldRedigerNavn.setBackground(Color.WHITE);
+      jTextFieldRedigerEmail.setBackground(Color.WHITE);
+      jTextFieldRedigeralder.setBackground(Color.WHITE);
+      jComboBoxRedigerPassivAktiv.setBackground(Color.WHITE);
+
+      jTextFieldRedigerNavn.setHorizontalAlignment(JTextField.CENTER);
+      jTextFieldRedigerEmail.setHorizontalAlignment(JTextField.CENTER);
+      jTextFieldRedigeralder.setHorizontalAlignment(JTextField.CENTER);
+
+      jLabelmembernumber.setBounds(50, 150, 170, 30);
+      jTextFieldIndtastMedlemsnummer.setBounds(240, 150, 170, 30);
+      jLabelVismember.setBounds(50, 200, 480, 30);
+      jButtonVælgMedlem.setBounds(440, 150, 90, 30);
+      jLabelØnsketÆndret.setBounds(240, 250, 170, 30);
+      jLabelNavn.setBounds(50, 300, 170, 30);
+      jLabelEmail.setBounds(50, 350, 170, 30);
+      jLabelAlder.setBounds(50, 400, 170, 30);
+      jlabelPassivAktiv.setBounds(50, 450, 170, 30);
+      jTextFieldRedigerNavn.setBounds(240, 300, 170, 30);
+      jTextFieldRedigerEmail.setBounds(240, 350, 170, 30);
+      jTextFieldRedigeralder.setBounds(240, 400, 170, 30);
+      jComboBoxRedigerPassivAktiv.setBounds(240, 450, 170, 30);
+      jButtonRedigerNavn.setBounds(440,300,90,30);
+          jButtonRedigerAlder.setBounds(440,400,90,30);
+      jButtonRedigerEmail.setBounds(440,350,90,30);
+          jButtonRedigerPasAkt.setBounds(440,450,90,30);
+
+      listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+      jComboBoxRedigerPassivAktiv.setRenderer(listRenderer);
+
+      Border blackline = BorderFactory.createLineBorder(Color.black);
+      jLabelmembernumber.setBorder(blackline);
+      jTextFieldIndtastMedlemsnummer.setBorder(blackline);
+      jLabelVismember.setBorder(blackline);
+      jLabelNavn.setBorder(blackline);
+      jLabelEmail.setBorder(blackline);
+      jLabelAlder.setBorder(blackline);
+      jlabelPassivAktiv.setBorder(blackline);
+      jTextFieldRedigerNavn.setBorder(blackline);
+      jTextFieldRedigerEmail.setBorder(blackline);
+      jTextFieldRedigeralder.setBorder(blackline);
+
+      jButtonVælgMedlem.addActionListener(alDisplayMemberForDeletion);
+
+    }
+  };
+
+  ActionListener alSearchMemberFromCriteria = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       String valgAfsøgning = jComboBoxsøgeKriterie.getItemAt(jComboBoxsøgeKriterie.getSelectedIndex()).toString();
@@ -397,7 +526,7 @@ public class Formand {
     }
   };
 
-  ActionListener alLavNytMedlem = new ActionListener() {
+  ActionListener alMakeNewMember = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -473,18 +602,19 @@ public class Formand {
     return null;
   }
 
-  ActionListener alConfirmMember = new ActionListener() {
+  ActionListener alDisplayMemberForDeletion = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      Member member; {
+      Member member;
+      {
       }
       try {
         member = memberList.findSpecifikMemberByMemberNumber(Integer.parseInt(jTextFieldIndtastMedlemsnummer.getText()));
-      } catch (NumberFormatException nfe){
+      } catch (NumberFormatException nfe) {
         member = null;
         ui.showErrorfindMember(frameFormand);
       }
-      if (member == null){
+      if (member == null) {
         ui.showErrorMemberNull(frameFormand);
       } else {
         jLabelVismember.setText(ui.printMemberKassereÆndreRestance(member));
@@ -492,18 +622,19 @@ public class Formand {
     }
   };
 
-  ActionListener alsletspecificMember = new ActionListener() {
+  ActionListener alDeleteSpecificMember = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      Member member; {
+      Member member;
+      {
       }
       try {
         member = memberList.findSpecifikMemberByMemberNumber(Integer.parseInt(jTextFieldIndtastMedlemsnummer.getText()));
-      } catch (NumberFormatException nfe){
+      } catch (NumberFormatException nfe) {
         member = null;
         ui.showErrorfindMember(frameFormand);
       }
-      if (member == null){
+      if (member == null) {
         ui.showErrorMemberNull(frameFormand);
       } else {
         memberList.removeMember(member);
@@ -512,6 +643,7 @@ public class Formand {
       }
     }
   };
+
 
   public void run() {
     memberList.setAllNonCompetitors(fileHandle.loadNonCompetitors());

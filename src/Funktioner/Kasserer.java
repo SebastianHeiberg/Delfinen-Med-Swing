@@ -173,7 +173,9 @@ public class Kasserer {
       jLabelRestancetitel.setBackground(Color.WHITE);
       jComboBoxvalg.setBackground(Color.WHITE);
 
-
+      DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
+      listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+      jComboBoxvalg.setRenderer(listRenderer);
 
 
       Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -267,13 +269,6 @@ public class Kasserer {
       } catch (NumberFormatException nfe){
         ui.showErrorfindMember(frameKasserer);
       }
-    }
-  };
-
-  ActionListener alSearch = new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
   };
 
