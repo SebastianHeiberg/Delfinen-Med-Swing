@@ -12,7 +12,7 @@ public class UI {
 
 
   public void showErrorLogin(JFrame frame) {
-    JOptionPane.showMessageDialog(frame, "Systemet kan ikke tilgås med det indtastede.");
+    JOptionPane.showMessageDialog(frame, "Systemet kan ikke tilgås med det indtastede. Brug bruger: Test - adgang: 1234");
   }
 
   public void showErrorCreatemember(JFrame frame) {
@@ -76,11 +76,11 @@ public class UI {
 
     if (member instanceof Competitor competitor) {
       return String.format("""
-          Medlemsnummer: %d  Navn: %s   Køn: %s  Email: %s  Alder:  %d år  Restance: %s  Svømmedisciplin: %s
+          Medlemsnummer: %d  Navn: %s   Køn: %s  Email: %s  Alder:  %d år
           """, member.getMemberNumber(), member.getName(), competitor.getGender(), member.getEmail(), member.getAge(), member.isMembershipPaid(), competitor.getSwimmingDisciplin());
     } else {
       return String.format("""
-          Medlemsnummer: %d  Navn: %s   Email: %s  Alder:  %d år  restance: %s
+          Medlemsnummer: %d  Navn: %s   Email: %s  Alder:  %d år
           """, member.getMemberNumber(), member.getName(), member.getEmail(), member.getAge(), member.isMembershipPaid());
     }
   }

@@ -92,7 +92,7 @@ public class Kasserer {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
-//      jPanelStoreOmråde.revalidate();
+//      jPanelLargeArea.revalidate();
       jPanelStoreOmråde.repaint();
       jPanelStoreOmråde.setLayout(new BorderLayout());
       JTextArea textAreavisMedlemmerPanel = new JTextArea();
@@ -199,7 +199,7 @@ public class Kasserer {
     @Override
     public void actionPerformed(ActionEvent e) {
       jPanelStoreOmråde.removeAll();
-//      jPanelStoreOmråde.revalidate();
+//      jPanelLargeArea.revalidate();
       jPanelStoreOmråde.repaint();
       jPanelStoreOmråde.setLayout(new BorderLayout());
       JTextArea textAreavisBudget = new JTextArea();
