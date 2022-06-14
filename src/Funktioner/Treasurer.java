@@ -11,10 +11,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 
-public class Kasserer {
+public class Treasurer {
   JFrame frameKasserer;
   JButton buttonVisMedlemmerIRestance;
   JButton buttonBudget;
@@ -37,7 +36,7 @@ public class Kasserer {
   UI ui = new UI();
 
 
-  public Kasserer() {
+  public Treasurer() {
     frameKasserer = new JFrame();
     frameKasserer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frameKasserer.setVisible(true);

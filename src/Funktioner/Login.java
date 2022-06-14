@@ -138,7 +138,7 @@ public class Login {
     if (funktion.equals("Kasserer")) {
       if (logins.checkAccesTreasurer(username, password)) {
         frameMain.dispose();
-        new Kasserer().run();
+        new Treasurer().run();
       } else {
         ui.showErrorLogin(frameMain);
       }

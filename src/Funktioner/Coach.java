@@ -6,6 +6,8 @@ import UI.UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Coach {
 
@@ -38,6 +40,26 @@ public class Coach {
     frameCoach.add(jPanelButtons);
     jPanelButtons.setBounds(0, 0, 210, 800);
 
+    jButtonTop5 = new JButton("Vis top 5");
+    jButtonNewTrainingTime = new JButton("Ny træningstid");
+    jButtonNewCompetitionTime = new JButton("Ny konkurrencetid");
+    jButtonKonvertSwimmer = new JButton("Konverter svømmer");
+    jButtonExit = new JButton("Exit");
+
+    jPanelButtons.add(jButtonTop5);
+    jPanelButtons.add(jButtonNewTrainingTime);
+    jPanelButtons.add(jButtonNewCompetitionTime);
+    jPanelButtons.add(jButtonKonvertSwimmer);
+    jPanelButtons.add(jButtonExit);
+
+    //knapper
+    jButtonTop5.setBounds(15, 20, 180, 60);
+    jButtonNewTrainingTime.setBounds(15, 100, 180, 60);
+    jButtonNewCompetitionTime.setBounds(15, 180, 180, 60);
+    jButtonKonvertSwimmer.setBounds(15, 260, 180, 60);
+    jButtonExit.setBounds(15, 340, 180, 60);
+
+    jButtonExit.addActionListener(alMenuOptionExitAndSave);
   }
 
   public void run() {
@@ -45,6 +67,14 @@ public class Coach {
     memberList.setAllCompetitors(fileHandle.loadCompetitors());
   }
 
-
+  ActionListener alMenuOptionExitAndSave = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      fileHandle.saveAllNonCompetitorsToFile(memberList.getAllNonCompetitors());
+      fileHandle.saveAllCompetitorsToFile(memberList.getAllCompetitors());
+      frameCoach.dispose();
+      new Funktioner.Login().run();
+    }
+  };
 
 }
