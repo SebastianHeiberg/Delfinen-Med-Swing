@@ -3,7 +3,7 @@ package Member;
 public class Competitor extends Member {
 
   private String gender; //TODO: Det findes kun 2 konkurrenceklasser: M / F. Fejlmelding
-  private SwimmingDisciplins swimmingDisciplin;
+  private SwimmingDisciplin swimmingDisciplin;
   private BestResultCompetition bestResultCompetition;
   private BestResultTraining bestResultTraining;
 
@@ -30,7 +30,7 @@ public class Competitor extends Member {
 //    this.swimmingDisciplin = swimmingDisciplin;
 //  }
 
-  public Competitor(String name, Integer memberNumber, Integer age, String email, boolean isMembershipPaid, String gender, SwimmingDisciplins swimmingDisciplin, BestResultTraining bestResultTraining, BestResultCompetition bestResultCompetition){
+  public Competitor(String name, Integer memberNumber, Integer age, String email, boolean isMembershipPaid, String gender, SwimmingDisciplin swimmingDisciplin, BestResultTraining bestResultTraining, BestResultCompetition bestResultCompetition){
     super(name, memberNumber, age, email, isMembershipPaid);
     this.gender = gender;
     this.swimmingDisciplin = swimmingDisciplin;
@@ -46,11 +46,11 @@ public class Competitor extends Member {
     return bestResultTraining;
   }
 
-  public SwimmingDisciplins getSwimmingDisciplin() {
+  public SwimmingDisciplin getSwimmingDisciplin() {
     return swimmingDisciplin;
   }
 
-  public void setSwimmingDisciplin(SwimmingDisciplins swimmingDisciplin) {
+  public void setSwimmingDisciplin(SwimmingDisciplin swimmingDisciplin) {
     this.swimmingDisciplin = swimmingDisciplin;
   }
 

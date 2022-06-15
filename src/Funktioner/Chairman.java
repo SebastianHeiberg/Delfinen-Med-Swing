@@ -568,7 +568,7 @@ public class Chairman {
       } else if (membertype.equals("Konkurrence") && !name.isEmpty() && age > 0 && !email.isEmpty()) {
 
         String selectedMF = getSelectedButtonText(buttonGroupGender);
-        SwimmingDisciplins swimmingDisciplins = SwimmingDisciplins.valueOf(jComboBoxdisciplin.getItemAt(jComboBoxdisciplin.getSelectedIndex()).toString().toUpperCase(Locale.ROOT));
+        SwimmingDisciplin swimmingDisciplins = SwimmingDisciplin.valueOf(jComboBoxdisciplin.getItemAt(jComboBoxdisciplin.getSelectedIndex()).toString().toUpperCase(Locale.ROOT));
         BestResultTraining bestResultTraining = new BestResultTraining(0, 0, 0, 0);
         BestResultCompetition bestResultCompetition = new BestResultCompetition(0, 0, 0, 0);
 

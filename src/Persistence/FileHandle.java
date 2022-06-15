@@ -77,7 +77,7 @@ public class FileHandle {
         int age = Integer.parseInt(line.next());
         String email = line.next();
         boolean isMembershipPaid = Boolean.parseBoolean(line.next());
-        SwimmingDisciplins swimmingDisciplin = SwimmingDisciplins.valueOf(line.next());
+        SwimmingDisciplin swimmingDisciplin = SwimmingDisciplin.valueOf(line.next());
         Integer personalBestTrainingTimeMinutes = Integer.parseInt(line.next());
         Integer personalBestTrainingTimeSeconds = Integer.parseInt(line.next());
         Integer personalBestMonthTraining = Integer.parseInt(line.next());

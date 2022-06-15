@@ -128,4 +128,33 @@ public class UI {
   public String printSlettet() {
     return "Medlem Slettet";
   }
+
+  public void printTop5List(ArrayList<Competitor> allTrainingTimes, ArrayList<Competitor> allCompetitionTimes, JTextArea jTextArea) {
+    jTextArea.append("\nTop 5 træningstider:\n");
+    for (int i = 0; i < allTrainingTimes.size(); i++) {
+      Competitor competitor = allTrainingTimes.get(i);
+      Integer minutes = competitor.getBestResultTraining().getPersonalBestTrainingTimeMinutes();
+      Integer seconds = competitor.getBestResultTraining().getPersonalBestTrainingTimeSeconds();
+      Integer month = competitor.getBestResultTraining().getPersonalBestTrainingMonth();
+      Integer year = competitor.getBestResultTraining().getPersonalBestTrainingYear();
+
+      jTextArea.append(String.format("""
+          %d. Medlemsnummer: %d, %s, Tid: %d:%d, Dato:%d/%d
+          """, i + 1, competitor.getMemberNumber(), competitor.getName(), minutes, seconds, month, year));
+    }
+
+    jTextArea.append("\nTop 5 konkurrencetider:\n");
+    for (int i = 0; i < allCompetitionTimes.size(); i++) {
+      Competitor competitor = allCompetitionTimes.get(i);
+      Integer minutes = competitor.getBestResultCompetition().getPersonalBestCompetitionTimeMinutes();
+      Integer seconds = competitor.getBestResultCompetition().getPersonalBestCompetitionTimeSeconds();
+      Integer month = competitor.getBestResultCompetition().getPersonalBestCompetitionMonth();
+      Integer year = competitor.getBestResultCompetition().getPersonalBestCompetitionYear();
+
+      jTextArea.append(String.format("""
+          %d. Medlemsnummer: %d, %s, Tid: %d:%d, Dato:%d/%d
+          """, i + 1, competitor.getMemberNumber(), competitor.getName(), minutes, seconds, month, year));
+    }
+
+  }
 }

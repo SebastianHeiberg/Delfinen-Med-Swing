@@ -1,6 +1,8 @@
 package Funktioner;
 
+import Member.Competitor;
 import Member.MemberList;
+import Member.SwimmingDisciplin;
 import Persistence.FileHandle;
 import UI.UI;
 
@@ -9,6 +11,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class Coach {
 
@@ -37,7 +41,7 @@ public class Coach {
   private FileHandle fileHandle = new FileHandle();
   UI ui = new UI();
 
-  public Coach(){
+  public Coach() {
     frameCoach = new JFrame();
     frameCoach.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frameCoach.setVisible(true);
@@ -79,6 +83,10 @@ public class Coach {
 
     jButtonExit.addActionListener(alMenuOptionExitAndSave);
     jButtonTop5.addActionListener(alMenuOptionShowTop5);
+    jButtonKonvertSwimmer.addActionListener(alMenuOptionConverMember);
+    jButtonNewCompetitionTime.addActionListener(alMenuOptionNewCompetitionTime);
+    jButtonNewTrainingTime.addActionListener(alMenuOptionNewTrainingTime);
+
   }
 
   public void run() {
@@ -95,21 +103,22 @@ public class Coach {
       JTextArea textAreavisMedlemmerPanel = new JTextArea();
       jScrollPaneShowTop5 = new JScrollPane(textAreavisMedlemmerPanel);
       jPanelLargeArea.add(jScrollPaneShowTop5);
-      jScrollPaneShowTop5.setBounds(1,250,0,0);
+      jScrollPaneShowTop5.setBounds(1, 250, 0, 0);
       jScrollPaneShowTop5.setSize(575, 360);
       jScrollPaneShowTop5.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
       jScrollPaneShowTop5.setEnabled(false);
 
-      jLabelGender = new JLabel("Køn",JLabel.CENTER);
-      jLabelDisciplin = new JLabel("Svømmedisciplin",JLabel.CENTER);
-      jLabelAgeGroup = new JLabel("Aldersgruppe",JLabel.CENTER);
-      String [] gender = {"Mand","Kvinde"};
+      jLabelGender = new JLabel("Køn", JLabel.CENTER);
+      jLabelDisciplin = new JLabel("Svømmedisciplin", JLabel.CENTER);
+      jLabelAgeGroup = new JLabel("Aldersgruppe", JLabel.CENTER);
+      String[] gender = {"Mand", "Kvinde"};
       jComboBoxGender = new JComboBox(gender);
       String[] swimmingType = {"Crawl", "Bryst", "Rygcrawl", "Butterfly"};
       jComboBoxDisciplin = new JComboBox(swimmingType);
-      String [] ageGroup = {"Senior","Junior"};
+      String[] ageGroup = {"Senior", "Junior"};
       jComboBoxAgeGroup = new JComboBox(ageGroup);
       showTop5People = new JButton("Vis top 5");
+
 
 
       //alt med de tre felter og menuerne
@@ -121,13 +130,13 @@ public class Coach {
       jPanelLargeArea.add(jComboBoxDisciplin);
       jPanelLargeArea.add(showTop5People);
 
-      jLabelGender.setBounds(25,50,170,30);
-      jComboBoxGender.setBounds(230,50,170,30);
-      jLabelDisciplin.setBounds(25, 100,170,30);
-      jComboBoxDisciplin.setBounds(230,100,170,30);
-      jLabelAgeGroup.setBounds(25,150,170,30);
-      jComboBoxAgeGroup.setBounds(230,150,170,30);
-      showTop5People.setBounds(450, 87, 100,50);
+      jLabelGender.setBounds(25, 50, 170, 30);
+      jComboBoxGender.setBounds(230, 50, 170, 30);
+      jLabelDisciplin.setBounds(25, 100, 170, 30);
+      jComboBoxDisciplin.setBounds(230, 100, 170, 30);
+      jLabelAgeGroup.setBounds(25, 150, 170, 30);
+      jComboBoxAgeGroup.setBounds(230, 150, 170, 30);
+      showTop5People.setBounds(435, 87, 100, 50);
 
       jLabelGender.setBorder(blackline);
       jLabelDisciplin.setBorder(blackline);
@@ -155,6 +164,68 @@ public class Coach {
       jComboBoxDisciplin.setRenderer(listRenderer);
       jComboBoxGender.setRenderer(listRenderer);
 
+
+      ActionListener displayTop5 = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          textAreavisMedlemmerPanel.setText("");
+          String swimmerType = jComboBoxDisciplin.getItemAt(jComboBoxDisciplin.getSelectedIndex()).toString().toUpperCase();
+          String swimmerGender = jComboBoxGender.getItemAt(jComboBoxGender.getSelectedIndex()).toString();
+          String swimmerAge = jComboBoxAgeGroup.getItemAt(jComboBoxAgeGroup.getSelectedIndex()).toString();
+
+          SwimmingDisciplin swimmingDisciplin = SwimmingDisciplin.valueOf(swimmerType);
+          String memberGender;
+
+          if (swimmerGender.equals("Mand")){
+          memberGender = "M";
+          } else {
+            memberGender = "K";
+          }
+
+          int age;
+          if (swimmerAge.equals("Senior")){
+            age = 19;
+          } else {
+            age = 17;
+          }
+
+          ArrayList<Competitor> top5Competition = memberList.createTop5ListCompetition(memberGender, swimmingDisciplin, age);
+          ArrayList<Competitor> top5Training = memberList.createTop5ListTraining(memberGender, swimmingDisciplin, age);
+          ui.printTop5List(top5Training, top5Competition,textAreavisMedlemmerPanel);
+        }
+      };
+
+      showTop5People.addActionListener(displayTop5);
+
+    }
+  };
+
+  ActionListener alMenuOptionConverMember = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelLargeArea.removeAll();
+      jPanelLargeArea.repaint();
+      jPanelLargeArea.setLayout(null);
+
+    }
+  };
+
+  ActionListener alMenuOptionNewTrainingTime = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelLargeArea.removeAll();
+      jPanelLargeArea.repaint();
+      jPanelLargeArea.setLayout(null);
+
+    }
+  };
+
+  ActionListener alMenuOptionNewCompetitionTime = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      jPanelLargeArea.removeAll();
+      jPanelLargeArea.repaint();
+      jPanelLargeArea.setLayout(null);
 
     }
   };
