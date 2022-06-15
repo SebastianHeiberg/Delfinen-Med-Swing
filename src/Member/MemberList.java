@@ -62,6 +62,8 @@ public class MemberList {
     return null;
   }
 
+
+
   public Competitor findSpecifikCompetitorByMemberNumber(int memberNumber) {
 
     for (Competitor competitor : allCompetitors) {

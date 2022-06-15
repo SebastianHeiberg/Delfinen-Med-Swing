@@ -56,6 +56,10 @@ public class UI {
     return "Navn: " + member.getName() + " , Email: " + member.getEmail() + " , I restance: " + member.isMembershipPaid();
   }
 
+  public String printMemberName(Competitor member) {
+    return "Navn: " + member.getName() + ", Svømmedisciplin: " + member.getSwimmingDisciplin() ;
+  }
+
   public String printExpectedAnnualSum(double expectedSum, int members) {
     return "\nSamlet antal medlemmer: " + members +
         "\nForventet årligt indkomst: " + expectedSum + " kr.";
