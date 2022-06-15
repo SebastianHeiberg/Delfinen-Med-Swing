@@ -13,9 +13,9 @@ import Login.LoginCheck;
 
 public class Login {
 
-  private UI ui = new UI();
+  private final UI ui = new UI();
   public FileHandle fileHandle = new FileHandle();
-  private LoginCheck logins = new LoginCheck();
+  private final LoginCheck logins = new LoginCheck();
   JPasswordField jPasswordField;
   JFrame frameMain;
   JLabel jLabelFunktion;
@@ -23,7 +23,7 @@ public class Login {
   JLabel jlabelUsername;
   JTextField jTextFieldUsername;
   JComboBox jComboBoxOptions;
-  String[] muligheder = {"Formand", "Kasserer", "Træner"};
+  String[] funktionOptions = {"Formand", "Kasserer", "Træner"};
   JButton exit;
   JButton login;
   JLabel jLabelDelfinen;
@@ -35,7 +35,7 @@ public class Login {
     frameMain.setLayout(null);
 
     jLabelFunktion = new JLabel("Funktion i klubben ");
-    jComboBoxOptions = new JComboBox(muligheder);
+    jComboBoxOptions = new JComboBox(funktionOptions);
     jTextFieldUsername = new JTextField("", 15);
     jLabelPassword = new JLabel("Kodeord ");
     jlabelUsername = new JLabel("Brugernavn ");
@@ -50,7 +50,7 @@ public class Login {
         frameMain.dispose();
       }
     });
-    login.addActionListener(this::attemptLoginuser);
+    login.addActionListener(this::attemptUserLogin);
 
     //alle knapperne
     frameMain.add(jLabelFunktion);
@@ -119,7 +119,7 @@ public class Login {
     frameMain.setLocationRelativeTo(null);
   }
 
-  private void attemptLoginuser(java.awt.event.ActionEvent evt) {
+  private void attemptUserLogin(java.awt.event.ActionEvent evt) {
 
     String funktion = jComboBoxOptions.getItemAt(jComboBoxOptions.getSelectedIndex()).toString();
     String password = String.valueOf(jPasswordField.getPassword());
@@ -128,8 +128,8 @@ public class Login {
     if (funktion.equals("Formand")) {
       if (logins.checkAccesChairman(username, password)) {
         frameMain.dispose();
-        Chairman formand = new Chairman();
-        formand.run();
+        Chairman chairman = new Chairman();
+        chairman.run();
       } else {
         ui.showErrorLogin(frameMain);
       }
@@ -147,7 +147,7 @@ public class Login {
     if (funktion.equals("Træner")) {
       if (logins.checkAccesCoach(username, password)) {
         frameMain.dispose();
-        Coach træner = new Coach();
+        new Coach().run();
       } else {
         ui.showErrorLogin(frameMain);
       }

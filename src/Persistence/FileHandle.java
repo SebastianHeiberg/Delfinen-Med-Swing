@@ -87,8 +87,8 @@ public class FileHandle {
         Integer personalBestMonthCompetition = Integer.parseInt(line.next());
         Integer personalBestYearCompetition = Integer.parseInt(line.next());
 
-        BestResultTraining bestResultTraining = new BestResultTraining(personalBestCompetitionTimeMinutes,
-            personalBestCompetitionTimeSeconds, personalBestMonthTraining,
+        BestResultTraining bestResultTraining = new BestResultTraining(personalBestTrainingTimeMinutes,
+            personalBestTrainingTimeSeconds, personalBestMonthTraining,
             personalBestYearTraining);
 
         BestResultCompetition bestResultCompetition = new BestResultCompetition(personalBestCompetitionTimeMinutes,
