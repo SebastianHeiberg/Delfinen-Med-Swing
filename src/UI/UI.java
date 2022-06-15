@@ -3,6 +3,8 @@ package UI;
 import Member.Member;
 import Member.Competitor;
 import Member.NonCompetitor;
+import Member.BestResultTraining;
+import Member.BestResultCompetition;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class UI {
   }
 
   public String printMemberName(Competitor member) {
-    return "Navn: " + member.getName() + ", Svømmedisciplin: " + member.getSwimmingDisciplin() ;
+    return member.getName() + ", Svømmedisciplin: " + member.getSwimmingDisciplin() ;
   }
 
   public String printExpectedAnnualSum(double expectedSum, int members) {
@@ -160,5 +162,23 @@ public class UI {
           """, i + 1, competitor.getMemberNumber(), competitor.getName(), minutes, seconds, month, year));
     }
 
+  }
+
+  public String printMemberTrainingTime(Competitor member) {
+    BestResultTraining training = member.getBestResultTraining();
+    int minutes = training.getPersonalBestTrainingTimeMinutes();
+    int seconds = training.getPersonalBestTrainingTimeSeconds();
+    int month = training.getPersonalBestTrainingMonth();
+    int year = training.getPersonalBestTrainingYear();
+    return "Nuværende træningstid: " + minutes + ":" + seconds + " (M:S)" + " Dato: " + month + "/" + year ;
+  }
+
+  public String printMemberCompetitiveTime(Competitor member) {
+    BestResultCompetition training = member.getBestResultCompetition();
+    int minutes = training.getPersonalBestCompetitionTimeMinutes();
+    int seconds = training.getPersonalBestCompetitionTimeSeconds();
+    int month = training.getPersonalBestCompetitionMonth();
+    int year = training.getPersonalBestCompetitionYear();
+    return "Nuværende konkurrencetid: " + minutes + ":" + seconds + " (M:S)" + " Dato: " + month + "/" + year ;
   }
 }

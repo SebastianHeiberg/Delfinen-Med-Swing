@@ -45,7 +45,10 @@ public class Coach {
   JTextField jTextFieldIndtastMedlemsnummer;
   JButton jButtonConfirmMember;
   JLabel jLabelShowMember;
+  JLabel jLabelShowMemberTrainingTime;
+  JLabel jLabelShowMemberCompetivieTime;
   JButton jButtonConfirmTime;
+
 
 
   DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
@@ -255,6 +258,8 @@ public class Coach {
       JLabel jLabelSeconds = new JLabel("Sekunder",JLabel.CENTER);
       JLabel jLabelLocation = new JLabel("Lokalitet",JLabel.CENTER);
       jButtonConfirmTime = new JButton("3. Registerer ny tid");
+      jLabelShowMemberTrainingTime = new JLabel("");
+      jLabelShowMemberCompetivieTime = new JLabel("");
 
       //lav indhold
       jPanelLargeArea.add(jLabelChooseMember);
@@ -274,26 +279,31 @@ public class Coach {
       jPanelLargeArea.add(jComboBoxLocation);
       jPanelLargeArea.add(jLabelLocation);
       jPanelLargeArea.add(jButtonConfirmTime);
-
+      jPanelLargeArea.add(jLabelShowMemberTrainingTime);
+      jPanelLargeArea.add(jLabelShowMemberCompetivieTime);
 
       jLabelChooseMember.setBounds(50, 75, 170, 30);
       jTextFieldIndtastMedlemsnummer.setBounds(240, 75, 170, 30);
       jButtonConfirmMember.setBounds(430, 75, 100, 30);
       jLabelShowMember.setBounds(50, 125, 480, 30);
-      jlabelDay.setBounds(50, 170, 60, 30);
-      jComboBoxDay.setBounds(120, 170, 100, 30);
-      jlabelMonth.setBounds(50, 210, 60, 30);
-      jComboBoxMonth.setBounds(120,210,100,30);
-      jlabelYear.setBounds(50, 250, 60, 30);
-      jComboBoxYear.setBounds(120,250,100,30);
-      jLabelLocation.setBounds(50,290,60,30);
-      jComboBoxLocation.setBounds(120,290,100,30);
-      jLabelMinuts.setBounds(50,330,60,30);
-      jLabelSeconds.setBounds(50,370,60,30);
-      jComboBoxMin.setBounds(120,330,100,30);
-      jComboBoxSec.setBounds(120,370,100,30);
-      jButtonConfirmTime.setBounds(50,410,170,30);
+      jLabelShowMemberTrainingTime.setBounds(50,165,480,30);
+      jLabelShowMemberCompetivieTime.setBounds(50,205,480,30);
+      jLabelLocation.setBounds(50,250,60,30);
+      jComboBoxLocation.setBounds(120,250,100,30);
+      jlabelDay.setBounds(50, 290, 60, 30);
+      jComboBoxDay.setBounds(120, 290, 100, 30);
+      jlabelMonth.setBounds(50, 330, 60, 30);
+      jComboBoxMonth.setBounds(120,330,100,30);
+      jlabelYear.setBounds(50, 370, 60, 30);
+      jComboBoxYear.setBounds(120,370,100,30);
+      jLabelMinuts.setBounds(50,410,60,30);
+      jLabelSeconds.setBounds(50,450,60,30);
+      jComboBoxMin.setBounds(120,410,100,30);
+      jComboBoxSec.setBounds(120,450,100,30);
+      jButtonConfirmTime.setBounds(50,490,170,30);
 
+      jLabelShowMemberTrainingTime.setOpaque(true);
+      jLabelShowMemberCompetivieTime.setOpaque(true);
       jComboBoxMin.setOpaque(true);
       jComboBoxSec.setOpaque(true);
       jLabelMinuts.setOpaque(true);
@@ -325,6 +335,8 @@ public class Coach {
       jComboBoxMonth.setBackground(Color.WHITE);
       jLabelMinuts.setBackground(Color.WHITE);
       jLabelSeconds.setBackground(Color.WHITE);
+      jLabelShowMemberTrainingTime.setBackground(Color.WHITE);
+      jLabelShowMemberCompetivieTime.setBackground(Color.WHITE);
 
       jComboBoxMin.setBorder(blackline);
       jComboBoxSec.setBorder(blackline);
@@ -340,6 +352,8 @@ public class Coach {
       jLabelMinuts.setBorder(blackline);
       jLabelSeconds.setBorder(blackline);
       jLabelLocation.setBorder(blackline);
+      jLabelShowMemberTrainingTime.setBorder(blackline);
+      jLabelShowMemberCompetivieTime.setBorder(blackline);
 
       listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
 
@@ -387,6 +401,8 @@ public class Coach {
         ui.showErrorMemberNull(frameCoach);
       } else {
         jLabelShowMember.setText(ui.printMemberName(member));
+        jLabelShowMemberTrainingTime.setText(ui.printMemberTrainingTime(member));
+        jLabelShowMemberCompetivieTime.setText(ui.printMemberCompetitiveTime(member));
       }
     }
   };
