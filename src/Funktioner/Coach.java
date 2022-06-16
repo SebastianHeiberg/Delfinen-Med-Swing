@@ -28,10 +28,8 @@ public class Coach {
   private JScrollPane jScrollPaneShowTop5;
   private JButton showTop5People;
   //Ny træningstid
-  private JButton registerNewTime;
   private JComboBox jComboBoxLocation;
   private JComboBox jComboBoxMonth;
-  private JComboBox jComboBoxDay;
   private JComboBox jComboBoxYear;
   private JComboBox jComboBoxMin;
   private JComboBox jComboBoxSec;
@@ -222,20 +220,16 @@ public class Coach {
       jPanelLargeArea.setLayout(null);
       competitorChoosen = null;
 
-      JButton registerNewTime = new JButton("Registrer tid");
       String[] location = {"Konkurrence", "Træning"};
       jComboBoxLocation = new JComboBox(location);
       String[] month = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
       jComboBoxMonth = new JComboBox(month);
-      String[] day = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-      jComboBoxDay = new JComboBox(day);
       String[] year = {"2022"};
       jComboBoxYear = new JComboBox(year);
       String[] sec = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"};
       jComboBoxMin = new JComboBox(sec);
       jComboBoxSec = new JComboBox(sec);
       JLabel jlabelMonth = new JLabel("Måned", JLabel.CENTER);
-      JLabel jlabelDay = new JLabel("Dag", JLabel.CENTER);
       JLabel jlabelYear = new JLabel("Årstal", JLabel.CENTER);
       JLabel jLabelChooseMember = new JLabel("1. Indtast medlemsnummer", JLabel.CENTER);
       jTextFieldIndtastMedlemsnummer = new JTextField("", 15);
@@ -253,8 +247,6 @@ public class Coach {
       jPanelLargeArea.add(jTextFieldIndtastMedlemsnummer);
       jPanelLargeArea.add(jButtonConfirmMember);
       jPanelLargeArea.add(jLabelShowMember);
-      jPanelLargeArea.add(jlabelDay);
-      jPanelLargeArea.add(jComboBoxDay);
       jPanelLargeArea.add(jlabelMonth);
       jPanelLargeArea.add(jComboBoxMonth);
       jPanelLargeArea.add(jlabelYear);
@@ -277,17 +269,15 @@ public class Coach {
       jLabelShowMemberCompetivieTime.setBounds(50, 205, 480, 30);
       jLabelLocation.setBounds(50, 250, 60, 30);
       jComboBoxLocation.setBounds(120, 250, 100, 30);
-      jlabelDay.setBounds(50, 290, 60, 30);
-      jComboBoxDay.setBounds(120, 290, 100, 30);
-      jlabelMonth.setBounds(50, 330, 60, 30);
-      jComboBoxMonth.setBounds(120, 330, 100, 30);
-      jlabelYear.setBounds(50, 370, 60, 30);
-      jComboBoxYear.setBounds(120, 370, 100, 30);
-      jLabelMinuts.setBounds(50, 410, 60, 30);
-      jLabelSeconds.setBounds(50, 450, 60, 30);
-      jComboBoxMin.setBounds(120, 410, 100, 30);
-      jComboBoxSec.setBounds(120, 450, 100, 30);
-      jButtonConfirmTime.setBounds(50, 490, 170, 30);
+      jlabelMonth.setBounds(50, 290, 60, 30);
+      jComboBoxMonth.setBounds(120, 290, 100, 30);
+      jlabelYear.setBounds(50, 330, 60, 30);
+      jComboBoxYear.setBounds(120, 330, 100, 30);
+      jLabelMinuts.setBounds(50, 370, 60, 30);
+      jComboBoxMin.setBounds(120, 370, 100, 30);
+      jLabelSeconds.setBounds(50, 410, 60, 30);
+      jComboBoxSec.setBounds(120, 410, 100, 30);
+      jButtonConfirmTime.setBounds(50, 450, 170, 30);
 
       jLabelShowMemberTrainingTime.setOpaque(true);
       jLabelShowMemberCompetivieTime.setOpaque(true);
@@ -298,11 +288,9 @@ public class Coach {
       jLabelChooseMember.setOpaque(true);
       jTextFieldIndtastMedlemsnummer.setOpaque(true);
       jLabelShowMember.setOpaque(true);
-      jlabelDay.setOpaque(true);
       jlabelMonth.setOpaque(true);
       jlabelYear.setOpaque(true);
       jComboBoxYear.setOpaque(true);
-      jComboBoxDay.setOpaque(true);
       jComboBoxMonth.setOpaque(true);
       jLabelLocation.setOpaque(true);
       jComboBoxLocation.setOpaque(true);
@@ -314,11 +302,9 @@ public class Coach {
       jLabelChooseMember.setBackground(Color.WHITE);
       jTextFieldIndtastMedlemsnummer.setBackground(Color.WHITE);
       jLabelShowMember.setBackground(Color.WHITE);
-      jlabelDay.setBackground(Color.WHITE);
       jlabelMonth.setBackground(Color.WHITE);
       jlabelYear.setBackground(Color.WHITE);
       jComboBoxYear.setBackground(Color.WHITE);
-      jComboBoxDay.setBackground(Color.WHITE);
       jComboBoxMonth.setBackground(Color.WHITE);
       jLabelMinuts.setBackground(Color.WHITE);
       jLabelSeconds.setBackground(Color.WHITE);
@@ -330,11 +316,9 @@ public class Coach {
       jLabelChooseMember.setBorder(blackline);
       jTextFieldIndtastMedlemsnummer.setBorder(blackline);
       jLabelShowMember.setBorder(blackline);
-      jlabelDay.setBorder(blackline);
       jlabelMonth.setBorder(blackline);
       jlabelYear.setBorder(blackline);
       jComboBoxYear.setBorder(blackline);
-      jComboBoxDay.setBorder(blackline);
       jComboBoxMonth.setBorder(blackline);
       jLabelMinuts.setBorder(blackline);
       jLabelSeconds.setBorder(blackline);
